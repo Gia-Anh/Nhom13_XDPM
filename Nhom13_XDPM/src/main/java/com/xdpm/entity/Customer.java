@@ -29,6 +29,8 @@ public class Customer implements Serializable{
 	@Column(columnDefinition = "nvarchar(20)")
 	private String phoneNumber;
 	
+	private boolean enabled;
+	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<RentalRecord> rentalRecords;
 	
@@ -92,6 +94,20 @@ public class Customer implements Serializable{
 	public void setReservationRecords(List<ReservationRecord> reservationRecords) {
 		this.reservationRecords = reservationRecords;
 	}
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [id=" + id + ", name=" + name + ", address=" + address + ", phoneNumber=" + phoneNumber
+				+ ", enabled=" + enabled + "]";
+	}
+
 	
 }

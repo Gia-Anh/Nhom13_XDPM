@@ -23,6 +23,7 @@ public class Disk implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String status;
+	private boolean enabled;
 	
 	@ManyToOne
 	@JoinColumn(name = "titleID")
@@ -65,6 +66,14 @@ public class Disk implements Serializable{
 	public void setRentalRecords(List<RentalRecord> rentalRecords) {
 		this.rentalRecords = rentalRecords;
 	}
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	
 }

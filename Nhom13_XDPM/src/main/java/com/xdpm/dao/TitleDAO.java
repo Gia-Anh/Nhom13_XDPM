@@ -9,12 +9,18 @@ import com.xdpm.entity.Title;
 public class TitleDAO extends AbstractCRUD<Title>{
 	
 	public List<Title> getAllTitleByCategoryID(int categoryID) {
-		Query query = entityManager.createQuery("from Title where categoryID = :categoryID", Title.class);
+		Query query = entityManager.createQuery("from Title where categoryID = :categoryID and enabled = true", Title.class);
 		query.setParameter("categoryID", categoryID);
 		return query.getResultList();
 	}
 	
 	public Title getTitleByID(int id) {
 		return entityManager.find(Title.class, id);
+	}
+	
+	public void deleteTitle(int id) {
+		Title title = entityManager.find(Title.class, id);
+		title.setEnabled(false);
+		update(title);
 	}
 }

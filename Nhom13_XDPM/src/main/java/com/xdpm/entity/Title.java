@@ -27,6 +27,8 @@ public class Title implements Serializable{
 	private String name;
 	private int numberOfCopies;
 	
+	private boolean enabled;
+	
 	@ManyToOne
 	@JoinColumn(name = "categoryID")
 	private Category category;
@@ -87,6 +89,14 @@ public class Title implements Serializable{
 	public void setReservationRecords(List<ReservationRecord> reservationRecords) {
 		this.reservationRecords = reservationRecords;
 	}
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	
 }

@@ -89,6 +89,7 @@ public class Category implements Serializable{
 	public void setTitles(List<Title> titles) {
 		this.titles = titles;
 	}
+
 	
 	
 }

@@ -125,12 +125,12 @@ public class UI_Main extends JFrame{
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 559, 1066, 52);
+		panel.setBounds(10, 561, 1066, 50);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JButton btnDangNhap = new JButton("Đăng nhập quản lý");
-		btnDangNhap.setBounds(896, 10, 142, 34);
+		btnDangNhap.setBounds(896, 10, 142, 30);
 		panel.add(btnDangNhap);
 		
 	}

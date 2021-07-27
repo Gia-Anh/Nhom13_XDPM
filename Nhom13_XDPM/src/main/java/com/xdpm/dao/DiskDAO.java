@@ -24,7 +24,5 @@ public class DiskDAO extends AbstractCRUD<Disk>{
 		update(disk);
 	}
 	
-	public static void main(String[] args) {
-		DiskDAO dao = new DiskDAO();
-	}
+	
 }

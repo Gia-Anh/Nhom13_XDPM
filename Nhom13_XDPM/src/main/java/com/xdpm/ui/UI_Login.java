@@ -25,6 +25,7 @@ public class UI_Login extends JDialog{
 		
 		txtMatKhau = new JPasswordField();
 		txtMatKhau.setBounds(75, 10, 144, 24);
+		txtMatKhau.setText("123456");
 		getContentPane().add(txtMatKhau);
 		
 		JButton btnDangNhap = new JButton("Đăng nhập");
@@ -34,7 +35,7 @@ public class UI_Login extends JDialog{
 		btnDangNhap.addActionListener(e ->{
 			char[] pw = txtMatKhau.getPassword();
 			String password = new String(pw);
-			if (password.trim().equals("lamdeogico")) {
+			if (password.trim().equals("123456")) {
 				mainUI.changeUI(true);
 				this.dispose();
 			}else {

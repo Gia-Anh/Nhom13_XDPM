@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.Color;
+import javax.swing.JTabbedPane;
 
 public class UI_Main extends JFrame{
 	
@@ -37,6 +38,8 @@ public class UI_Main extends JFrame{
 	private JMenuItem jmiCapNhatNgayThue;
 	private JMenuItem jmiQLDia;
 	private JButton btnDangNhap;
+	private UI_ThueDia pnlThueDia;
+	private UI_TraDia pnlTraDia;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -119,15 +122,22 @@ public class UI_Main extends JFrame{
 		mnQuanLy.setIcon(new ImageIcon("image/disk.png"));
 		getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(10, 561, 1066, 50);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel pnlDangNhap = new JPanel();
+		pnlDangNhap.setBackground(Color.WHITE);
+		pnlDangNhap.setBounds(10, 561, 1066, 50);
+		getContentPane().add(pnlDangNhap);
+		pnlDangNhap.setLayout(null);
 		
 		btnDangNhap = new JButton("Đăng nhập quản lý");
 		btnDangNhap.setBounds(896, 10, 142, 30);
-		panel.add(btnDangNhap);
+		pnlDangNhap.add(btnDangNhap);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 10, 1066, 541);
+		tabbedPane.setFont(font);
+		getContentPane().add(tabbedPane);
+		
+		pnlThueDia = new UI_ThueDia();
 		
 		//==========================================================
 		btnDangNhap.addActionListener(e ->{
@@ -142,6 +152,16 @@ public class UI_Main extends JFrame{
 			
 		});
 		
+		//==========================================================
+		jmiThueDia.addActionListener(e ->{
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Thuê đĩa", new ImageIcon("image/disk.png"), pnlThueDia, "Thuê đĩa");
+		});
+		
+		jmiTraDia.addActionListener(e ->{
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Trả đĩa", new ImageIcon("image/disk.png"), pnlTraDia, "Trả đĩa");
+		});
 	}
 	
 	public void changeUI(boolean isManager) {

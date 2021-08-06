@@ -131,7 +131,19 @@ public class UI_Main extends JFrame {
 		btnDangNhap = new JButton("Đăng nhập quản lý");
 		btnDangNhap.setBounds(896, 10, 142, 30);
 		panel.add(btnDangNhap);
-
+		/**
+		 * Xử lý sự các panel Author: Khoa đẹp trai
+		 */
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.setFont(font);
+		getContentPane().add(tabbedPane);
+		//==========================================================
+		jmiQLKhachHang.addActionListener(e -> {
+			setTitle("Quản lý thông tin khách hàng");
+			tabbedPane.addTab("Quản lý thông tin khách hàng", new ImageIcon("image/disk.png"), pnlManage_Customer,
+					"Quản lý thông tin khách hàng");
+			new FrmManage_Customer();
+		});
 		// ==========================================================
 		btnDangNhap.addActionListener(e -> {
 			if (btnDangNhap.getText().equals("Đăng nhập quản lý")) {
@@ -194,16 +206,5 @@ public class UI_Main extends JFrame {
 			btnDangNhap.setText("Đăng nhập quản lý");
 		}
 
-		/**
-		 * Xử lý sự các panel Author: Khoa đẹp trai
-		 */
-		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setFont(font);
-		getContentPane().add(tabbedPane);
-		jmiQLKhachHang.addActionListener(e -> {
-			setTitle("Quản lý thông tin khách hàng");
-			tabbedPane.addTab("Quản lý thông tin khách hàng", new ImageIcon("image/disk.png"), pnlManage_Customer,
-					"Quản lý thông tin khách hàng");
-		});
 	}
 }

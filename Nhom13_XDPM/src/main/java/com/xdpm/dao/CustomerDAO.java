@@ -14,7 +14,11 @@ public class CustomerDAO extends AbstractCRUD<Customer>{
 	}
 	
 	public Customer getCustomerByID(int id) {
-		return entityManager.find(Customer.class, id);
+		Customer customer = entityManager.find(Customer.class, id);
+		if (customer != null && customer.isEnabled()) {
+			return customer;
+		}
+		return null;
 	}
 	
 	public void deleteCustomer(int id) {

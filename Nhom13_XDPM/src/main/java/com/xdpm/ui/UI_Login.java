@@ -41,7 +41,7 @@ public class UI_Login extends JDialog{
 			}else {
 				txtMatKhau.requestFocus();
 				txtMatKhau.selectAll();
-				JOptionPane.showMessageDialog(null, "Sai tên đăng nhập hoặc mật khẩu!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Sai mật khẩu!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			}
 		});
 	}

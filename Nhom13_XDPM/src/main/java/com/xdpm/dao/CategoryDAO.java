@@ -17,7 +17,4 @@ public class CategoryDAO extends AbstractCRUD<Category>{
 		return entityManager.find(Category.class, id);
 	}
 	
-	public static void main(String[] args) {
-		CategoryDAO dao = new CategoryDAO();
-	}
 }

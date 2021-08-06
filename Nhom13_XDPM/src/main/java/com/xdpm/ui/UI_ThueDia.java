@@ -1,14 +1,24 @@
 package com.xdpm.ui;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.xdpm.dao.CustomerDAO;
+import com.xdpm.dao.DiskDAO;
+import com.xdpm.entity.Customer;
+import com.xdpm.entity.Disk;
+import com.xdpm.util.FormatString;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -23,7 +33,6 @@ public class UI_ThueDia extends JPanel{
 	private JTextField tfPhoneNumber;
 	private JTextField tfDiskID;
 	private JTable tblCart;
-	private Vector<?> title;
 	private DefaultTableModel modelCart;
 	private DefaultTableModel modelDisk;
 	private JTable tblDisk;
@@ -31,6 +40,9 @@ public class UI_ThueDia extends JPanel{
 	private JTextField tfTienThue;
 	private JTextField tfNoPhi;
 	private JTextField tfTongTien;
+	
+	private DiskDAO diskDAO = new DiskDAO();
+	private CustomerDAO customerDAO = new CustomerDAO();
 	public UI_ThueDia() {
 		setLayout(null);
 		
@@ -64,6 +76,8 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblCusName);
 		
 		tfCusName = new JTextField();
+		tfCusName.setBackground(Color.WHITE);
+		tfCusName.setEditable(false);
 		tfCusName.setBounds(121, 70, 213, 25);
 		pnlKhachHang.add(tfCusName);
 		tfCusName.setColumns(40);
@@ -74,6 +88,8 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblAddress);
 		
 		tfAddress = new JTextField();
+		tfAddress.setEditable(false);
+		tfAddress.setBackground(Color.WHITE);
 		tfAddress.setBounds(121, 115, 213, 25);
 		pnlKhachHang.add(tfAddress);
 		tfAddress.setColumns(10);
@@ -84,6 +100,8 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblPhoneNumber);
 		
 		tfPhoneNumber = new JTextField();
+		tfPhoneNumber.setEditable(false);
+		tfPhoneNumber.setBackground(Color.WHITE);
 		tfPhoneNumber.setText("");
 		tfPhoneNumber.setBounds(123, 160, 211, 25);
 		pnlKhachHang.add(tfPhoneNumber);
@@ -216,5 +234,73 @@ public class UI_ThueDia extends JPanel{
 		JButton btnHuy = new JButton("Hủy");
 		btnHuy.setBounds(200, 155, 100, 25);
 		pnlThanhToan.add(btnHuy);
+		
+		//===============================================================
+		btnAddDisk.addActionListener(e ->{
+			try {
+				int diskID = Integer.parseInt(tfDiskID.getText());
+				Disk disk = diskDAO.getDiskByID(diskID);
+				if (disk != null) {
+					if (disk.getStatus().equals("rented")) {
+						JOptionPane.showMessageDialog(null, "Đĩa này đang được thuê!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}else if (disk.getStatus().equals("onHold")) {
+						JOptionPane.showMessageDialog(null, "Đĩa này đang được giữ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}else {
+						if (!checkExistOnTable(tblCart, diskID)) {
+							int i = modelCart.getRowCount();
+							String[] rowData = {i+1+"", disk.getId()+"", disk.getTitle().getName(),
+									disk.getTitle().getCategory().getName(), FormatString.formatDate(getDueDate(disk.getTitle().getCategory().getRentalPeriod()))
+									, disk.getTitle().getCategory().getRentalCharge()+""};
+							modelCart.addRow(rowData);
+							tblCart.setModel(modelCart);
+						}else {
+							JOptionPane.showMessageDialog(null, "Đĩa này đã thêm rồi!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
+		btnFindCustomer.addActionListener(e ->{
+			try {
+				int cusID = Integer.parseInt(tfCusID.getText());
+				Customer customer = customerDAO.getCustomerByID(cusID);
+				if (customer != null) {
+					tfCusName.setText(customer.getName());
+					tfAddress.setText(customer.getAddress());
+					tfPhoneNumber.setText(customer.getPhoneNumber());
+				}else {
+					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			} catch (Exception e2) {
+				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}
+		});
+	}
+	
+	private Date getDueDate(int rentalPeriod) {
+		Date date = new Date();
+		
+		Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, rentalPeriod);
+        
+        Date dueDate = c.getTime();
+        return dueDate;
+	}
+	
+	private boolean checkExistOnTable(JTable table, int diskID) {
+		int rowCount = table.getRowCount();
+		String id = diskID+"";
+		for (int i = 0; i < rowCount; i++) {
+	        if (id.equals(table.getValueAt(i, 1).toString())) {
+				return true;
+			}
+	    }
+		return false;
 	}
 }

@@ -15,7 +15,11 @@ public class TitleDAO extends AbstractCRUD<Title>{
 	}
 	
 	public Title getTitleByID(int id) {
-		return entityManager.find(Title.class, id);
+		Title title = entityManager.find(Title.class, id);
+		if (title != null && title.isEnabled()) {
+			return title;
+		}
+		return null;
 	}
 	
 	public void deleteTitle(int id) {

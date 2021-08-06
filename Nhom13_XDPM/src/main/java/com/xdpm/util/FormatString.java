@@ -11,7 +11,7 @@ public class FormatString {
 	public static String formatTienVN(double d) {
 		return String.format("%,.0f", d);
 	}
-	public static String formatDate(LocalDate date) {
+	public static String formatLocalDate(LocalDate date) {
 		return date.format(formatter);
 	}
 	public static String formatDate(Date date) {

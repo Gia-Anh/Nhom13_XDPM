@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Customer implements Serializable{
+public class Customer implements Serializable {
 	/**
 	 * 
 	 */
@@ -21,22 +21,22 @@ public class Customer implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(columnDefinition = "nvarchar(50)")
 	private String name;
 	@Column(columnDefinition = "nvarchar(50)")
 	private String address;
 	@Column(columnDefinition = "nvarchar(20)")
 	private String phoneNumber;
-	
+
 	private boolean enabled;
-	
+
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<RentalRecord> rentalRecords;
-	
+
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<ReservationRecord> reservationRecords;
-	
+
 	public Customer() {
 	}
 
@@ -103,11 +103,17 @@ public class Customer implements Serializable{
 		this.enabled = enabled;
 	}
 
+	public Customer(int id, String name, String address, String phoneNumber) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+	}
+
 	@Override
 	public String toString() {
 		return "Customer [id=" + id + ", name=" + name + ", address=" + address + ", phoneNumber=" + phoneNumber
 				+ ", enabled=" + enabled + "]";
 	}
 
-	
 }

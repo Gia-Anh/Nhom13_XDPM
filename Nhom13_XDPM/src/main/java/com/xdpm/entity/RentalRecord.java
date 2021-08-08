@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@IdClass(RentalRecord_PK.class)
 public class RentalRecord implements Serializable{
 	/**
 	 * 
@@ -18,11 +19,14 @@ public class RentalRecord implements Serializable{
 	private static final long serialVersionUID = -3534284061707471065L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
 	@ManyToOne
 	@JoinColumn(name = "diskID")
 	private Disk disk;
 	
-	@Id
+	
 	@ManyToOne
 	@JoinColumn(name = "customerID")
 	private Customer customer;

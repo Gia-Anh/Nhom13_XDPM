@@ -32,6 +32,9 @@ public class Disk implements Serializable{
 	@OneToMany(mappedBy = "disk", cascade = CascadeType.ALL)
 	private List<RentalRecord> rentalRecords;
 	
+	@OneToMany(mappedBy = "disk", cascade = CascadeType.ALL)
+	private List<ReservationRecord> reservationRecords;
+	
 	public Disk() {
 	}
 

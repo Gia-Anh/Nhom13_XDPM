@@ -6,9 +6,7 @@
 		<class>com.xdpm.entity.Customer</class>
 		<class>com.xdpm.entity.Disk</class>
 		<class>com.xdpm.entity.RentalRecord</class>
-		<class>com.xdpm.entity.RentalRecord_PK</class>
 		<class>com.xdpm.entity.ReservationRecord</class>
-		<class>com.xdpm.entity.ReservationRecord_PK</class>
 		<class>com.xdpm.entity.Title</class>
 		<properties>
 				<property name="javax.persistence.jdbc.driver"

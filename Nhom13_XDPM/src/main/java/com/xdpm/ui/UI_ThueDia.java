@@ -308,6 +308,8 @@ public class UI_ThueDia extends JPanel{
 					RentalRecord record = new RentalRecord();
 					record.setCustomer(customer);
 					record.setDisk(disk);
+					double rentalCharge = Double.parseDouble(tblCart.getValueAt(i, 5).toString());
+					record.setRentalCharge(rentalCharge);
 					record.setRentDate(new Date());
 					
 					Date dueDate = convertDate(tblCart.getValueAt(i, 4).toString());

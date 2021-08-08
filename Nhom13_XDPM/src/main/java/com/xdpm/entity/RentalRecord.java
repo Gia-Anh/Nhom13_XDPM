@@ -30,6 +30,7 @@ public class RentalRecord implements Serializable{
 	private Date rentDate;
 	private Date dueDate;
 	private Date returnDate;
+	private double rentalCharge;
 	private double lateFee;
 	private boolean isPaid;
 	
@@ -91,6 +92,15 @@ public class RentalRecord implements Serializable{
 	public void setPaid(boolean isPaid) {
 		this.isPaid = isPaid;
 	}
+
+	public double getRentalCharge() {
+		return rentalCharge;
+	}
+
+	public void setRentalCharge(double rentalCharge) {
+		this.rentalCharge = rentalCharge;
+	}
+	
 	
 	
 }

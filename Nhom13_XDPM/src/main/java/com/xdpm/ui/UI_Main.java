@@ -40,6 +40,7 @@ public class UI_Main extends JFrame{
 	private JButton btnDangNhap;
 	private UI_ThueDia pnlThueDia;
 	private UI_TraDia pnlTraDia;
+	private JTabbedPane tabbedPane;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -132,12 +133,10 @@ public class UI_Main extends JFrame{
 		btnDangNhap.setBounds(896, 10, 142, 30);
 		pnlDangNhap.add(btnDangNhap);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 10, 1066, 541);
 		tabbedPane.setFont(font);
 		getContentPane().add(tabbedPane);
-		
-		pnlThueDia = new UI_ThueDia();
 		
 		//==========================================================
 		btnDangNhap.addActionListener(e ->{
@@ -153,11 +152,13 @@ public class UI_Main extends JFrame{
 		});
 		
 		//==========================================================
+		pnlThueDia = new UI_ThueDia();
 		jmiThueDia.addActionListener(e ->{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Thuê đĩa", new ImageIcon("image/disk.png"), pnlThueDia, "Thuê đĩa");
 		});
 		
+		pnlTraDia = new UI_TraDia();
 		jmiTraDia.addActionListener(e ->{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Trả đĩa", new ImageIcon("image/disk.png"), pnlTraDia, "Trả đĩa");
@@ -204,12 +205,16 @@ public class UI_Main extends JFrame{
 			mnBaoCao.setIcon(new ImageIcon("image/disk.png"));
 			mnKhac.setIcon(new ImageIcon("image/disk.png"));
 			
+			tabbedPane.removeAll();
 			btnDangNhap.setText("Đăng xuất");
 		}else {
 			menuBar.remove(mnBaoCao);
 			menuBar.remove(mnKhac);
 			mnQuanLy.remove(jmiQLDia);
+			tabbedPane.removeAll();
 			btnDangNhap.setText("Đăng nhập quản lý");
+			
+			
 		}
 		
 	}

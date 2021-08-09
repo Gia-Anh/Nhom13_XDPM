@@ -12,16 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Category implements Serializable{
+public class Category implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8184485578994362265L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(columnDefinition = "nvarchar(30)")
 	private String name;
 	private int rentalPeriod;
@@ -30,7 +30,7 @@ public class Category implements Serializable{
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
 	private List<Title> titles;
-	
+
 	public Category() {
 	}
 
@@ -90,6 +90,23 @@ public class Category implements Serializable{
 		this.titles = titles;
 	}
 
-	
-	
+	public Category(int id, String name, double rentalCharge, double lateFee) {
+		this.id = id;
+		this.name = name;
+		this.rentalCharge = rentalCharge;
+		this.lateFee = lateFee;
+	}
+
+	public Category(int id, String name, int rentalPeriod) {
+		this.id = id;
+		this.name = name;
+		this.rentalPeriod = rentalPeriod;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", rentalPeriod=" + rentalPeriod + ", rentalCharge="
+				+ rentalCharge + ", lateFee=" + lateFee + ", titles=" + titles + "]";
+	}
+
 }

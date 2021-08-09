@@ -163,11 +163,26 @@ public class UI_Main extends JFrame{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Trả đĩa", new ImageIcon("image/disk.png"), pnlTraDia, "Trả đĩa");
 		});
+
+		jmiQLKhachHang.addActionListener(e -> {
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Quản lý thông tin khách", new ImageIcon("image/disk.png"), new UI_QL_KhachHang(),
+					"Quản lý thông tin khách");
+		});
+		jmiQLTuaDe.addActionListener(e -> {
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Quản lý tựa đề", new ImageIcon("image/disk.png"), new UI_QL_TuaDe(), "Quản lý tựa đề");
+		});
 	}
 	
 	public void changeUI(boolean isManager) {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
 		Font font2 = new Font("Tahoma", Font.PLAIN,14);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 10, 1066, 541);
+		tabbedPane.setFont(font);
+		getContentPane().add(tabbedPane);
 		if (isManager) {
 			mnBaoCao = new JMenu("Báo cáo");
 			mnBaoCao.setFont(font);
@@ -207,6 +222,18 @@ public class UI_Main extends JFrame{
 			
 			tabbedPane.removeAll();
 			btnDangNhap.setText("Đăng xuất");
+			jmiCapNhatGiaThue.addActionListener(e -> {
+				JFrame jfrmCapNhapGiaThue = new UI_CapNhat_GiaThue();
+				jfrmCapNhapGiaThue.setVisible(true);
+			});
+			jmiCapNhatNgayThue.addActionListener(e -> {
+				JFrame jfrmCapNhapNgayThue = new UI_CapNhat_NgayThue();
+				jfrmCapNhapNgayThue.setVisible(true);
+			});
+			jmiQLDia.addActionListener(e -> {
+				tabbedPane.removeAll();
+				tabbedPane.addTab("Quản lý đĩa", new ImageIcon("image/disk.png"), new UI_QL_Dia(), "Quản lý đĩa");
+			});
 		}else {
 			menuBar.remove(mnBaoCao);
 			menuBar.remove(mnKhac);

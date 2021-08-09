@@ -3,6 +3,7 @@ package com.xdpm.ui;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -46,10 +47,12 @@ public class UI_ThueDia extends JPanel{
 	private JTextField tfTienThue;
 	private JTextField tfNoPhi;
 	private JTextField tfTongTien;
+	private boolean flag = true;
 	
 	private DiskDAO diskDAO = new DiskDAO();
 	private CustomerDAO customerDAO = new CustomerDAO();
 	private RentalDAO rentalDAO = new RentalDAO();
+	private JButton btnTTTreHan;
 	public UI_ThueDia() {
 		setLayout(null);
 		
@@ -122,16 +125,16 @@ public class UI_ThueDia extends JPanel{
 		tfTienNoPhi = new JTextField();
 		tfTienNoPhi.setEditable(false);
 		tfTienNoPhi.setForeground(Color.RED);
-		tfTienNoPhi.setHorizontalAlignment(SwingConstants.RIGHT);
 		tfTienNoPhi.setBackground(Color.WHITE);
 		tfTienNoPhi.setBounds(121, 205, 213, 25);
 		pnlKhachHang.add(tfTienNoPhi);
 		tfTienNoPhi.setColumns(10);
 		
-		JButton btnTTTreHan = new JButton("Thanh toán trễ hạn");
+		btnTTTreHan = new JButton("Thanh toán trễ hạn");
 		btnTTTreHan.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnTTTreHan.setBounds(121, 240, 150, 25);
 		pnlKhachHang.add(btnTTTreHan);
+		btnTTTreHan.setEnabled(false);
 		
 		JPanel pnlThueDia = new JPanel();
 		pnlThueDia.setBorder(new TitledBorder(null, "Thuê đĩa", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -170,7 +173,7 @@ public class UI_ThueDia extends JPanel{
 		scrollPane.setViewportView(tblCart);
 		
 		JPanel pnlDiaTreHan = new JPanel();
-		pnlDiaTreHan.setBorder(new TitledBorder(null, "Đĩa đang trễ hạn", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		pnlDiaTreHan.setBorder(new TitledBorder(null, "Thông tin phí trễ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		pnlDiaTreHan.setBounds(10, 297, 698, 193);
 		add(pnlDiaTreHan);
 		pnlDiaTreHan.setLayout(null);
@@ -179,7 +182,7 @@ public class UI_ThueDia extends JPanel{
 		scrollPane2.setBounds(10, 20, 678, 163);
 		pnlDiaTreHan.add(scrollPane2);
 
-		String[] title2 = { "STT", "Mã đĩa", "Tựa đề", "Hạn trả", "Phí trễ"};
+		String[] title2 = { "STT", "Mã đĩa", "Tựa đề", "Hạn trả", "Ngày trả", "Phí trễ"};
 		modelDisk = new DefaultTableModel(title2, 0);
 		tblDisk = new JTable(modelDisk) {
 			public boolean isCellEditable(int row, int col) {
@@ -275,7 +278,6 @@ public class UI_ThueDia extends JPanel{
 				}
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//				e2.printStackTrace();
 			}
 		});
 		
@@ -287,6 +289,8 @@ public class UI_ThueDia extends JPanel{
 					tfCusName.setText(customer.getName());
 					tfAddress.setText(customer.getAddress());
 					tfPhoneNumber.setText(customer.getPhoneNumber());
+					
+					loadTableLateFee(cusID);
 				}else {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}
@@ -295,32 +299,39 @@ public class UI_ThueDia extends JPanel{
 			}
 		});
 		
-		//chưa có thanh toán phí trễ
 		btnThanhToan.addActionListener(e ->{
 			try {
-				int rowCount = tblCart.getRowCount();
-				String str_cusID = tfCusID.getText().toString();
-				int cusID = Integer.parseInt(str_cusID);
-				Customer customer = customerDAO.getCustomerByID(cusID);
-				for (int i = 0; i < rowCount; i++) {
-					int diskID = Integer.parseInt(tblCart.getValueAt(i, 1).toString());
-					Disk disk = diskDAO.getDiskByID(diskID);
-					RentalRecord record = new RentalRecord();
-					record.setCustomer(customer);
-					record.setDisk(disk);
-					double rentalCharge = Double.parseDouble(tblCart.getValueAt(i, 5).toString());
-					record.setRentalCharge(rentalCharge);
-					record.setRentDate(new Date());
-					
-					Date dueDate = convertDate(tblCart.getValueAt(i, 4).toString());
-					record.setDueDate(dueDate);
-					
-					rentalDAO.add(record);
-					disk.setStatus("rented");
-					diskDAO.update(disk);
+				if (tfTongTien.getText().equals("0 đ")) {
+					JOptionPane.showMessageDialog(null, "Chưa có dữ liệu thanh toán!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}else {
+					int rowCount = tblCart.getRowCount();
+					String str_cusID = tfCusID.getText().toString();
+					int cusID = Integer.parseInt(str_cusID);
+					Customer customer = customerDAO.getCustomerByID(cusID);
+					for (int i = 0; i < rowCount; i++) {
+						int diskID = Integer.parseInt(tblCart.getValueAt(i, 1).toString());
+						Disk disk = diskDAO.getDiskByID(diskID);
+						RentalRecord record = new RentalRecord();
+						record.setCustomer(customer);
+						record.setDisk(disk);
+						double rentalCharge = Double.parseDouble(tblCart.getValueAt(i, 5).toString());
+						record.setRentalCharge(rentalCharge);
+						record.setRentDate(new Date());
+						
+						Date dueDate = convertDate(tblCart.getValueAt(i, 4).toString());
+						record.setDueDate(dueDate);
+						
+						rentalDAO.add(record);
+						disk.setStatus("rented");
+						diskDAO.update(disk);
+					}
+					if (!flag) {
+						updateRecord(cusID);
+					}
+					JOptionPane.showMessageDialog(null, "Thanh toán thành công!!", "", JOptionPane.INFORMATION_MESSAGE);
+					clearAll();
+					btnTTTreHan.setEnabled(false);
 				}
-				JOptionPane.showMessageDialog(null, "Thanh toán thành công!!", "", JOptionPane.INFORMATION_MESSAGE);
-				clearAll();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			}
@@ -329,7 +340,32 @@ public class UI_ThueDia extends JPanel{
 		btnHuy.addActionListener(e ->{
 			if (JOptionPane.showConfirmDialog(this, "Hủy giao dịch này?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				clearAll();
+				btnTTTreHan.setEnabled(false);
 			}
+		});
+		
+		
+		btnTTTreHan.addActionListener(e ->{
+			if (tfTienNoPhi.getText().equals("0 đ")) {
+				JOptionPane.showMessageDialog(null, "Khách hàng này không có phí trễ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}else {
+				if (flag) {
+					tfNoPhi.setText(tfTienNoPhi.getText());
+					tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
+					flag = false;
+					btnTTTreHan.setText("Hủy thanh toán trễ");
+				}else {
+					tfNoPhi.setText("0 đ");
+					tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
+					flag = true;
+					btnTTTreHan.setText("Thanh toán trễ hạn");
+				}
+			}
+		});
+		
+		btnAddCustomer.addActionListener(e ->{
+			UI_ThemNhanhKH ui_themKH = new UI_ThemNhanhKH();
+			ui_themKH.setVisible(true);
 		});
 	}
 	
@@ -349,6 +385,8 @@ public class UI_ThueDia extends JPanel{
 		tfTienThue.setText("0 đ");
 		tfNoPhi.setText("0 đ");
 		tfTongTien.setText("0 đ");
+		flag = true;
+		btnTTTreHan.setText("Thanh toán trễ hạn");
 	}
 
 	//Tính ngày trả = ngày thuê(hiện tại) + số ngày thuê
@@ -400,5 +438,40 @@ public class UI_ThueDia extends JPanel{
 	private Date convertDate(String str) throws ParseException {
 		 SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
 		 return formatter.parse(str);  
+	}
+	
+	private void loadTableLateFee(int cusID) {
+		List<RentalRecord> record = rentalDAO.getListUnpaidRecord(cusID);
+		int i = modelDisk.getRowCount();
+		double lateFee = 0;
+		for (RentalRecord rentalRecord : record) {
+			String[] rowData = {i+1+"", rentalRecord.getDisk().getId()+"", rentalRecord.getDisk().getTitle().getName(),
+					FormatString.formatDate(rentalRecord.getDueDate()),
+					FormatString.formatDate(rentalRecord.getReturnDate()), rentalRecord.getLateFee()+""};
+			lateFee += rentalRecord.getLateFee();
+			modelDisk.addRow(rowData);
+		}
+		tblDisk.setModel(modelDisk);
+		tfTienNoPhi.setText(FormatString.formatTienVN(lateFee)+" đ");
+		
+		if (lateFee > 0) {
+			btnTTTreHan.setEnabled(true);
+		}
+	}
+	
+	private void updateRecord(int cusID) {
+		int rowCount = tblDisk.getRowCount();
+		RentalRecord record;
+		for (int i = 0; i < rowCount; i++) {
+			try {
+				int diskID = Integer.parseInt(tblDisk.getValueAt(i, 1)+"");
+				Date returnDate = convertDate(tblDisk.getValueAt(i, 4)+"");
+				record = rentalDAO.getByDiskIDAndCusID(diskID, cusID, returnDate);
+				record.setPaid(true);
+				rentalDAO.update(record);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

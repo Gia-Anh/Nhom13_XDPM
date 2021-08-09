@@ -46,6 +46,14 @@ public class Customer implements Serializable{
 		this.address = address;
 		this.phoneNumber = phoneNumber;
 	}
+	
+	public Customer(String name, String address, String phoneNumber, boolean enabled) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.enabled = enabled;
+	}
 
 	public int getId() {
 		return id;

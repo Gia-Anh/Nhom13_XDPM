@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class RentalRecord implements Serializable{
@@ -31,14 +33,25 @@ public class RentalRecord implements Serializable{
 	@JoinColumn(name = "customerID")
 	private Customer customer;
 	
+	@Temporal(TemporalType.DATE)
 	private Date rentDate;
+	@Temporal(TemporalType.DATE)
 	private Date dueDate;
+	@Temporal(TemporalType.DATE)
 	private Date returnDate;
 	private double rentalCharge;
 	private double lateFee;
 	private boolean isPaid;
 	
 	public RentalRecord() {
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public Disk getDisk() {
@@ -103,6 +116,12 @@ public class RentalRecord implements Serializable{
 
 	public void setRentalCharge(double rentalCharge) {
 		this.rentalCharge = rentalCharge;
+	}
+
+	@Override
+	public String toString() {
+		return "RentalRecord [disk=" + disk + ", customer=" + customer + ", lateFee=" + lateFee + ", isPaid=" + isPaid
+				+ "]";
 	}
 	
 	

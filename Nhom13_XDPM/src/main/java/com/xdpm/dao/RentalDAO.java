@@ -1,9 +1,13 @@
 package com.xdpm.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import com.xdpm.entity.RentalRecord;
 
@@ -15,6 +19,15 @@ public class RentalDAO extends AbstractCRUD<RentalRecord>{
 		query.setParameter("id", diskID);
 		return (RentalRecord) query.getSingleResult();
 	}
+	
+	//lấy record của đĩa
+		public RentalRecord getByDiskIDAndCusID(int diskID, int cusID, Date returnDate) {
+			Query query = entityManager.createQuery("from RentalRecord where diskID = :id and customerID = :cusID and returnDate = :date", RentalRecord.class);
+			query.setParameter("id", diskID);
+			query.setParameter("cusID", cusID);
+			query.setParameter("date", returnDate, TemporalType.DATE);
+			return (RentalRecord) query.getSingleResult();
+		}
 	
 	//Kiểm tra trả trễ
 	public boolean checkLateReturn(RentalRecord record) {
@@ -37,6 +50,13 @@ public class RentalDAO extends AbstractCRUD<RentalRecord>{
 		totalLateFee = daysDiff * lateFee;
 		
 		return totalLateFee;
+	}
+	
+	//Lấy ds đĩa trễ chưa thanh toán của KH
+	public List<RentalRecord> getListUnpaidRecord(int cusID){
+		Query query = entityManager.createQuery("from RentalRecord where customerID = :cusID and isPaid = 0 and lateFee > 0", RentalRecord.class);
+		query.setParameter("cusID", cusID);
+		return query.getResultList();
 	}
 	
 	

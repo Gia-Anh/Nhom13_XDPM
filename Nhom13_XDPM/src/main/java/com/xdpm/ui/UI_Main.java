@@ -163,6 +163,11 @@ public class UI_Main extends JFrame{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Trả đĩa", new ImageIcon("image/disk.png"), pnlTraDia, "Trả đĩa");
 		});
+		
+		jmiKTTTDia.addActionListener(e ->{
+			UI_KiemTraDia ui_ktdia = new UI_KiemTraDia(this, true);
+			ui_ktdia.setVisible(true);
+		});
 	}
 	
 	public void changeUI(boolean isManager) {

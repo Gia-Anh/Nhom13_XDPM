@@ -7,8 +7,10 @@ import javax.swing.table.DefaultTableModel;
 
 import com.xdpm.dao.DiskDAO;
 import com.xdpm.dao.RentalDAO;
+import com.xdpm.dao.ReservationDAO;
 import com.xdpm.entity.Disk;
 import com.xdpm.entity.RentalRecord;
+import com.xdpm.entity.ReservationRecord;
 import com.xdpm.util.FormatString;
 
 import javax.swing.JLabel;
@@ -18,7 +20,11 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.swing.JCheckBox;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -27,12 +33,13 @@ public class UI_TraDia extends JPanel{
 	private DefaultTableModel modelTraDia;
 	private JTable tblTraDia;
 	private JTextField tfDiskID;
-	
+	private ReservationDAO reservationDAO = new ReservationDAO();
 	private RentalDAO rentalDAO = new RentalDAO();
 	private DiskDAO diskDAO = new DiskDAO();
 	private JTextField tfLateFee;
 	private boolean isChecked = false;
 	private JCheckBox chkPayment;
+	private boolean flag = false;
 	
 	public UI_TraDia() {
 		setLayout(null);
@@ -125,6 +132,7 @@ public class UI_TraDia extends JPanel{
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		});
 		
@@ -145,6 +153,8 @@ public class UI_TraDia extends JPanel{
 			int diskID;
 			RentalRecord record;
 			Disk disk;
+			//diskID-customerID
+			HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 			
 			if (rowCount == 0) {
 				JOptionPane.showMessageDialog(null, "Chưa nhập đĩa để trả!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -170,9 +180,20 @@ public class UI_TraDia extends JPanel{
 					
 					rentalDAO.update(record);
 					diskDAO.update(disk);
+					
+					int holdID = checkAndHoldDiskForCustomer(disk.getTitle().getId(), diskID);
+					if (holdID != -1) {
+						//diskID-customerID
+						map.put(disk.getId(), holdID);
+					}
 				}
 				JOptionPane.showMessageDialog(null, "Trả đĩa thành công!!", "", JOptionPane.INFORMATION_MESSAGE);
 				clearAll();
+				if (flag) {
+					UI_TBDatTruoc ui_TBDatTruoc = new UI_TBDatTruoc(map);
+					ui_TBDatTruoc.setVisible(true);
+				}
+				
 			}
 		});
 		
@@ -212,5 +233,23 @@ public class UI_TraDia extends JPanel{
 			}
 	    }
 		return total;
+	}
+	
+	//Trả về cusID khi đặt trước thành công
+	private int checkAndHoldDiskForCustomer(int titleID, int diskID) {
+		//Lấy ds đặt trước
+		List<ReservationRecord> list = reservationDAO.getListByTitleID(titleID);
+		//Nếu có ds đặt trước thì gán cho ng đăt đầu tiên
+		if (list.size() > 0) {
+			ReservationRecord record = list.get(0);
+			Disk disk = diskDAO.getDiskByID(diskID);
+			disk.setStatus("onHold");
+			diskDAO.update(disk);
+			record.setDisk(disk);
+			reservationDAO.update(record);
+			flag  = true;
+			return record.getCustomer().getId();
+		}
+		return -1;
 	}
 }

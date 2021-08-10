@@ -1,5 +1,6 @@
 package com.xdpm.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -28,5 +29,12 @@ public class DiskDAO extends AbstractCRUD<Disk>{
 		update(disk);
 	}
 	
-	
+	//Lấy ds đĩa có thể thuê của 1 tựa
+	public List<Disk> getListOfRentableDisk(int titleID) {
+		List<Disk> list = new ArrayList<Disk>();
+		Query query = entityManager.createQuery("from Disk where titleID = :titleID and status = 'onShelf' and enabled = true", Disk.class);
+		query.setParameter("titleID", titleID);
+		list = query.getResultList();
+		return list;
+	}
 }

@@ -39,16 +39,16 @@ public abstract class AbstractCRUD<T> {
 		return null;
 	}
 	
-//	public boolean delete(T t) {
-//		EntityTransaction transaction = entityManager.getTransaction();
-//		try {
-//			transaction.begin();
-//			entityManager.remove(t);
-//			transaction.commit();
-//			return true;
-//		} catch (Exception e) {
-//			transaction.rollback();
-//			return false;
-//		}
-//	}
+	public boolean delete(T t) {
+		EntityTransaction transaction = entityManager.getTransaction();
+		try {
+			transaction.begin();
+			entityManager.remove(t);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			transaction.rollback();
+			return false;
+		}
+	}
 }

@@ -42,6 +42,7 @@ public class UI_Main extends JFrame{
 	private UI_TraDia pnlTraDia;
 	private JTabbedPane tabbedPane;
 	private UI_TTTreHan pnlTTTreHan;
+	private UI_DatTruoc pnlDatTruoc;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -171,6 +172,12 @@ public class UI_Main extends JFrame{
 		jmiThanhToan.addActionListener(e ->{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Thanh toán trễ hạn", new ImageIcon("image/disk.png"), pnlTTTreHan, "Thanh toán trễ hạn");
+		});
+		
+		pnlDatTruoc = new UI_DatTruoc();
+		jmiThemDatTruoc.addActionListener(e ->{
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Đặt trước tựa đề", new ImageIcon("image/disk.png"), pnlDatTruoc, "Đặt trước tựa đề");
 		});
 	}
 	

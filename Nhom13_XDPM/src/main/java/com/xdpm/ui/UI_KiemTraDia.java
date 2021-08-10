@@ -7,8 +7,10 @@ import javax.swing.JTextField;
 
 import com.xdpm.dao.DiskDAO;
 import com.xdpm.dao.RentalDAO;
+import com.xdpm.dao.ReservationDAO;
 import com.xdpm.entity.Disk;
 import com.xdpm.entity.RentalRecord;
+import com.xdpm.entity.ReservationRecord;
 
 import javax.swing.JButton;
 import java.awt.Font;
@@ -20,6 +22,7 @@ public class UI_KiemTraDia extends JDialog{
 	
 	private DiskDAO diskDAO = new DiskDAO();
 	private RentalDAO rentalDAO = new RentalDAO();
+	private ReservationDAO reservationDAO = new ReservationDAO();
 	private JLabel lblTitle;
 	private JLabel lblStatus;
 	private JLabel lblCustomer;
@@ -77,17 +80,19 @@ public class UI_KiemTraDia extends JDialog{
 						lblID.setText("ID: "+disk.getId());
 						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
 						lblStatus.setText("Trạng thái: trên kệ");
+						lblCustomer.setText("");
 					}else if (disk.getStatus().equals("rented")) {
-						RentalRecord record = rentalDAO.getByDiskID(diskID);
+						RentalRecord rentalRecord = rentalDAO.getByDiskID(diskID);
 						lblID.setText("ID: "+disk.getId());
 						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
 						lblStatus.setText("Trạng thái: đang được thuê");
-						lblCustomer.setText("Người thuê: "+record.getCustomer().getName());
+						lblCustomer.setText("Người thuê: "+rentalRecord.getCustomer().getName());
 					}else {
+						ReservationRecord reservationRecord = reservationDAO.getByDiskID(diskID);
 						lblID.setText("ID: "+disk.getId());
 						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
 						lblStatus.setText("Trạng thái: đang được giữ");
-						lblCustomer.setText("Được giữ cho: ");
+						lblCustomer.setText("Được giữ cho: "+reservationRecord.getCustomer().getName());
 					}
 				}
 			} catch (Exception e2) {

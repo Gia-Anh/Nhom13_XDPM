@@ -18,9 +18,11 @@ import javax.swing.table.DefaultTableModel;
 import com.xdpm.dao.CustomerDAO;
 import com.xdpm.dao.DiskDAO;
 import com.xdpm.dao.RentalDAO;
+import com.xdpm.dao.ReservationDAO;
 import com.xdpm.entity.Customer;
 import com.xdpm.entity.Disk;
 import com.xdpm.entity.RentalRecord;
+import com.xdpm.entity.ReservationRecord;
 import com.xdpm.util.FormatString;
 
 import javax.swing.JScrollBar;
@@ -47,12 +49,13 @@ public class UI_ThueDia extends JPanel{
 	private JTextField tfTienThue;
 	private JTextField tfNoPhi;
 	private JTextField tfTongTien;
+	private JButton btnTTTreHan;
 	private boolean flag = true;
 	
 	private DiskDAO diskDAO = new DiskDAO();
 	private CustomerDAO customerDAO = new CustomerDAO();
 	private RentalDAO rentalDAO = new RentalDAO();
-	private JButton btnTTTreHan;
+	
 	public UI_ThueDia() {
 		setLayout(null);
 		
@@ -483,4 +486,6 @@ public class UI_ThueDia extends JPanel{
 			}
 		}
 	}
+	
+	
 }

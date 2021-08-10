@@ -41,6 +41,7 @@ public class UI_Main extends JFrame{
 	private UI_ThueDia pnlThueDia;
 	private UI_TraDia pnlTraDia;
 	private JTabbedPane tabbedPane;
+	private UI_TTTreHan pnlTTTreHan;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -103,8 +104,6 @@ public class UI_Main extends JFrame{
 		jmiQLTuaDe.setFont(font2);
 		mnQuanLy.add(jmiQLTuaDe);
 		
-		
-		
 		jmiQLKhachHang = new JMenuItem("Quản lý khách hàng", new ImageIcon("image/disk.png"));
 		jmiQLKhachHang.setFont(font2);
 		mnQuanLy.add(jmiQLKhachHang);
@@ -148,7 +147,6 @@ public class UI_Main extends JFrame{
 				repaint();
 				validate();
 			}
-			
 		});
 		
 		//==========================================================
@@ -167,6 +165,12 @@ public class UI_Main extends JFrame{
 		jmiKTTTDia.addActionListener(e ->{
 			UI_KiemTraDia ui_ktdia = new UI_KiemTraDia(this, true);
 			ui_ktdia.setVisible(true);
+		});
+		
+		pnlTTTreHan = new UI_TTTreHan();
+		jmiThanhToan.addActionListener(e ->{
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Thanh toán trễ hạn", new ImageIcon("image/disk.png"), pnlTTTreHan, "Thanh toán trễ hạn");
 		});
 	}
 	

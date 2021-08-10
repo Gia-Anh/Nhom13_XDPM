@@ -290,6 +290,7 @@ public class UI_ThueDia extends JPanel{
 					tfAddress.setText(customer.getAddress());
 					tfPhoneNumber.setText(customer.getPhoneNumber());
 					
+					clearTableDisk();
 					loadTableLateFee(cusID);
 				}else {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -369,13 +370,21 @@ public class UI_ThueDia extends JPanel{
 		});
 	}
 	
-	private void clearAll() {
+	private void clearTableCart() {
 		while(modelCart.getRowCount()>0) {
 			modelCart.removeRow(0);
 		}
+	}
+	
+	private void clearTableDisk() {
 		while(modelDisk.getRowCount()>0) {
 			modelDisk.removeRow(0);
 		}
+	}
+	
+	private void clearAll() {
+		clearTableCart();
+		clearTableDisk();
 		tfDiskID.setText("");
 		tfCusID.setText("");
 		tfAddress.setText("");
@@ -442,9 +451,9 @@ public class UI_ThueDia extends JPanel{
 	
 	private void loadTableLateFee(int cusID) {
 		List<RentalRecord> record = rentalDAO.getListUnpaidRecord(cusID);
-		int i = modelDisk.getRowCount();
 		double lateFee = 0;
 		for (RentalRecord rentalRecord : record) {
+			int i = modelDisk.getRowCount();
 			String[] rowData = {i+1+"", rentalRecord.getDisk().getId()+"", rentalRecord.getDisk().getTitle().getName(),
 					FormatString.formatDate(rentalRecord.getDueDate()),
 					FormatString.formatDate(rentalRecord.getReturnDate()), rentalRecord.getLateFee()+""};

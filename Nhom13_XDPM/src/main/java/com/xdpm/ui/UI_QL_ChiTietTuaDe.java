@@ -152,21 +152,24 @@ public class UI_QL_ChiTietTuaDe extends JFrame {
 			if (txtId.getText().equalsIgnoreCase("")) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập mã", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
 				return;
-			} else {
-				Title cu = titleDAO.getTitleByID(Integer.parseInt(txtId.getText()));
-				list = diskDao.getAllDiskRentedByTitleID(Integer.parseInt(txtId.getText()));
-				if (cu != null) {
-					Category category = categoryDao.getCategoryByID(cu.getCategory().getId());
-					txtTen.setText(cu.getName());
-					txtTheLoai.setText(category.getName());
-					txtSoBan.setText(String.valueOf(cu.getNumberOfCopies()));
-					txtRented.setText(String.valueOf(cu.getNumberOfCopies() - list.size()));
-				} else
-					JOptionPane.showMessageDialog(this, "Không tìm thấy mã : " + txtId.getText(), "Thông báo",
-							JOptionPane.ERROR_MESSAGE);
 			}
-			if (Integer.parseInt(txtRented.getText()) < 0)
-				txtRented.setText("0");
+			if (!(txtId.getText().length() > 0 && txtId.getText().matches("[0-9]*"))) {
+				JOptionPane.showMessageDialog(this, "Không nhập chữ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			Title cu = titleDAO.getTitleByID(Integer.parseInt(txtId.getText()));
+			list = diskDao.getAllDiskRentedByTitleID(Integer.parseInt(txtId.getText()));
+			if (cu != null) {
+				Category category = categoryDao.getCategoryByID(cu.getCategory().getId());
+				txtTen.setText(cu.getName());
+				txtTheLoai.setText(category.getName());
+				txtSoBan.setText(String.valueOf(cu.getNumberOfCopies()));
+				txtRented.setText(String.valueOf(cu.getNumberOfCopies() - list.size()));
+			} else
+				JOptionPane.showMessageDialog(this, "Không tìm thấy mã : " + txtId.getText(), "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+//			if (Integer.parseInt(txtRented.getText()) < 0)
+//				txtRented.setText("0");
 		});
 	}
 }

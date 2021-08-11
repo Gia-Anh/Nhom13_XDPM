@@ -140,6 +140,27 @@ public class UI_CapNhat_GiaThue extends JFrame {
 
 		});
 		btnCapNhat.addActionListener(e -> {
+
+			if (txtGiaThue.getText().equals("") || txtPhiTraTre.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, "Vui lòng không để trống", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			if (!(txtGiaThue.getText().length() > 0 && txtGiaThue.getText().matches("[0-9]*"))) {
+				JOptionPane.showMessageDialog(this, "Không nhập chữ hoặc giá trị âm cho giá thuê", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			if (!(txtPhiTraTre.getText().length() > 0 && txtPhiTraTre.getText().matches("[0-9]*"))) {
+				JOptionPane.showMessageDialog(this, "Không nhập chữ hoặc giá trị âm cho phí trễ ", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			if (Integer.parseInt(txtGiaThue.getText()) < 0 || Integer.parseInt(txtPhiTraTre.getText()) < 0) {
+				JOptionPane.showMessageDialog(this, "Không nhập giá trị âm", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
 			String name = cboLoaiTieuDe.getSelectedItem().toString();
 			int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc thay đổi giá hay không", "Xác nhận",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

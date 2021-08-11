@@ -113,6 +113,22 @@ public class UI_CapNhat_NgayThue extends JFrame {
 			txtNgayThueToiDa.setText(String.valueOf(category.getRentalPeriod()));
 		});
 		btnCapNhat.addActionListener(e -> {
+			if (txtNgayThueToiDa.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, "Vui lòng không để trống", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			if (!(txtNgayThueToiDa.getText().length() > 0 && txtNgayThueToiDa.getText().matches("[0-9]*"))) {
+				JOptionPane.showMessageDialog(this, "Không nhập chữ hoặc giá trị âm cho ngày thuê", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+			if (Integer.parseInt(txtNgayThueToiDa.getText()) < 0) {
+				JOptionPane.showMessageDialog(this, "Không nhập giá trị âm", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				return;
+			}
+
 			String name = cboLoaiTieuDe.getSelectedItem().toString();
 			int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc thay đổi giá hay không", "Xác nhận",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

@@ -118,12 +118,5 @@ public class RentalRecord implements Serializable{
 		this.rentalCharge = rentalCharge;
 	}
 
-	@Override
-	public String toString() {
-		return "RentalRecord [disk=" + disk + ", customer=" + customer + ", lateFee=" + lateFee + ", isPaid=" + isPaid
-				+ "]";
-	}
-	
-	
 	
 }

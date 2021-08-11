@@ -78,5 +78,9 @@ public class Disk implements Serializable{
 		this.enabled = enabled;
 	}
 
+	public Disk(Title title) {
+		this.title = title;
+	}
+
 	
 }

@@ -41,6 +41,23 @@ public class Category implements Serializable{
 		this.rentalCharge = rentalCharge;
 		this.lateFee = lateFee;
 	}
+	
+	public Category(int id, String name, double rentalCharge, double lateFee) {
+		this.id = id;
+		this.name = name;
+		this.rentalCharge = rentalCharge;
+		this.lateFee = lateFee;
+	}
+
+	public Category(int id, String name, int rentalPeriod) {
+		this.id = id;
+		this.name = name;
+		this.rentalPeriod = rentalPeriod;
+	}
+
+	public Category(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;

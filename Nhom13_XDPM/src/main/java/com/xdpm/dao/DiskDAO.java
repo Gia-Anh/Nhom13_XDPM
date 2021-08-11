@@ -37,4 +37,33 @@ public class DiskDAO extends AbstractCRUD<Disk>{
 		list = query.getResultList();
 		return list;
 	}
+	
+	public Disk CheckOnShelfDiskByID(int id) {
+		Disk disk = entityManager.find(Disk.class, id);
+		if (disk != null && disk.isEnabled() && disk.getStatus().equalsIgnoreCase("onShelf")) {
+			return disk;
+		}
+		return null;
+	}
+
+	@Override
+	public Disk add(Disk t) {
+		t.setEnabled(true);
+		t.setStatus("onShelf");
+		return super.add(t);
+	}
+
+	public List<Disk> getAllDiskSorfByTitleID(int titleID) {
+		Query query = entityManager
+				.createQuery("from Disk where titleID = :titleID and enabled = true order by status asc", Disk.class);
+		query.setParameter("titleID", titleID);
+		return query.getResultList();
+	}
+
+	public List<Disk> getAllDiskRentedByTitleID(int titleID) {
+		Query query = entityManager
+				.createQuery("from Disk where titleID = :titleID and enabled = true and status='onShelf'", Disk.class);
+		query.setParameter("titleID", titleID);
+		return query.getResultList();
+	}
 }

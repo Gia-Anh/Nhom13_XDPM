@@ -41,6 +41,22 @@ public class Title implements Serializable{
 	
 	public Title() {
 	}
+	
+	public Title(int id) {
+		this.id = id;
+	}
+
+	public Title(int id, int numberOfCopies) {
+
+		this.id = id;
+		this.numberOfCopies = numberOfCopies;
+	}
+
+	public Title(String name, int numberOfCopies, Category category) {
+		this.name = name;
+		this.numberOfCopies = numberOfCopies;
+		this.category = category;
+	}
 
 	public int getId() {
 		return id;

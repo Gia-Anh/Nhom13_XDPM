@@ -46,6 +46,7 @@ INSERT [dbo].[RentalRecord] ([id], [dueDate], [isPaid], [lateFee], [rentDate], [
 INSERT [dbo].[RentalRecord] ([id], [dueDate], [isPaid], [lateFee], [rentDate], [rentalCharge], [returnDate], [customerID], [diskID]) VALUES (2, CAST(N'2021-08-06' AS Date), 0, 15000, CAST(N'2021-08-01' AS Date), 25000, CAST(N'2021-08-12' AS Date), 1, 10)
 INSERT [dbo].[RentalRecord] ([id], [dueDate], [isPaid], [lateFee], [rentDate], [rentalCharge], [returnDate], [customerID], [diskID]) VALUES (3, CAST(N'2021-08-08' AS Date), 0, 0, CAST(N'2021-08-01' AS Date), 30000, NULL, 1, 2)
 INSERT [dbo].[RentalRecord] ([id], [dueDate], [isPaid], [lateFee], [rentDate], [rentalCharge], [returnDate], [customerID], [diskID]) VALUES (4, CAST(N'2021-08-08' AS Date), 0, 0, CAST(N'2021-08-01' AS Date), 30000, NULL, 1, 3)
+INSERT [dbo].[RentalRecord] ([id], [dueDate], [isPaid], [lateFee], [rentDate], [rentalCharge], [returnDate], [customerID], [diskID]) VALUES (5, CAST(N'2021-08-08' AS Date), 0, 20000, CAST(N'2021-08-01' AS Date), 30000, CAST(N'2021-08-12' AS Date), 1, 6)
 SET IDENTITY_INSERT [dbo].[RentalRecord] OFF
 SET IDENTITY_INSERT [dbo].[ReservationRecord] ON 
 

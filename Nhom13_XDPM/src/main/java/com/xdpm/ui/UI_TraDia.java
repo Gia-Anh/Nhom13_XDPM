@@ -3,7 +3,9 @@ package com.xdpm.ui;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.xdpm.dao.DiskDAO;
 import com.xdpm.dao.RentalDAO;
@@ -48,7 +50,7 @@ public class UI_TraDia extends JPanel{
 		scrollPane.setBounds(33, 54, 745, 398);
 		add(scrollPane);
 		
-		String[] title = { "STT", "Mã đĩa", "Mã khách hàng", "Tựa đề","Ngày thuê", "Hạn trả", "Trả trễ", "Phí trễ" };
+		String[] title = { "STT", "Mã đĩa", "Mã KH", "Tựa đề","Ngày thuê", "Hạn trả", "Trả trễ", "Phí trễ" };
 		modelTraDia = new DefaultTableModel(title, 0);
 		tblTraDia = new JTable(modelTraDia) {
 			public boolean isCellEditable(int row, int col) {
@@ -105,6 +107,10 @@ public class UI_TraDia extends JPanel{
 		add(tfLateFee);
 		tfLateFee.setColumns(10);
 		
+		tableDesign(tblTraDia);
+		tableRenderer();
+		setTBColumnWidth();
+		
 		btnAddDisk.addActionListener(e ->{
 			try {
 				int diskID = Integer.parseInt(tfDiskID.getText().toString());
@@ -113,15 +119,13 @@ public class UI_TraDia extends JPanel{
 					if (!checkExistOnTable(tblTraDia, diskID)) {
 						int i = tblTraDia.getRowCount();
 						String traTre = "";
-						String phiTre = "";
 						
 						if (rentalDAO.checkLateReturn(record)) {
 							traTre = "x";
-							phiTre = rentalDAO.calculateLateFee(record)+"";
 						}
 						String[] rowData = {i+1+"", record.getDisk().getId()+"", record.getCustomer().getId()+"", record.getDisk().getTitle().getName(),
 								FormatString.formatDate(record.getRentDate()), FormatString.formatDate(record.getDueDate())
-								, traTre, phiTre};
+								, traTre, record.getDisk().getTitle().getCategory().getLateFee()+""};
 						modelTraDia.addRow(rowData);
 						tblTraDia.setModel(modelTraDia);
 					}else {
@@ -167,7 +171,7 @@ public class UI_TraDia extends JPanel{
 					record.setReturnDate(new Date());
 					
 					if (rentalDAO.checkLateReturn(record)) {
-						record.setLateFee(rentalDAO.calculateLateFee(record));
+						record.setLateFee(disk.getTitle().getCategory().getLateFee());
 						if (isChecked) {
 							record.setPaid(true);
 						}else {
@@ -251,5 +255,40 @@ public class UI_TraDia extends JPanel{
 			return record.getCustomer().getId();
 		}
 		return -1;
+	}
+	
+	private void tableDesign(JTable tb) {
+		tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+		tb.getTableHeader().setOpaque(false);
+		tb.getTableHeader().setBackground(new Color(32, 136, 203));
+		tb.getTableHeader().setForeground(Color.white);
+		tb.setRowHeight(25);
+		tb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+	}
+	
+	private void tableRenderer() {
+		DefaultTableCellRenderer rightCellRenderer = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
+		
+		rightCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+		centerCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		
+		tblTraDia.getColumn("STT").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Mã đĩa").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Mã KH").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Ngày thuê").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Hạn trả").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Trả trễ").setCellRenderer(centerCellRenderer);
+		tblTraDia.getColumn("Phí trễ").setCellRenderer(rightCellRenderer);
+	}
+	
+	private void setTBColumnWidth() {	
+		TableColumn column = null;
+		for (int i = 0; i < tblTraDia.getColumnCount(); i++) {
+			column = tblTraDia.getColumnModel().getColumn(i);
+			if(i==3) {
+				column.setPreferredWidth(200);
+			}
+		}
 	}
 }

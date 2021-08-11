@@ -37,21 +37,6 @@ public class RentalDAO extends AbstractCRUD<RentalRecord>{
 		return i>0 ? true:false;
 	}
 	
-	//Tính phí trễ
-	public double calculateLateFee(RentalRecord record) {
-		Date present = new Date();
-		double totalLateFee = 0;
-		
-		//Tính khoảng cách 2 ngày
-		long getDiff = present.getTime() - record.getDueDate().getTime();
-		long daysDiff = TimeUnit.MILLISECONDS.toDays(getDiff);
-		
-		double lateFee = record.getDisk().getTitle().getCategory().getLateFee();
-		totalLateFee = daysDiff * lateFee;
-		
-		return totalLateFee;
-	}
-	
 	//Lấy ds đĩa trễ chưa thanh toán của KH
 	public List<RentalRecord> getListUnpaidRecord(int cusID){
 		Query query = entityManager.createQuery("from RentalRecord where customerID = :cusID and isPaid = 0 and lateFee > 0", RentalRecord.class);

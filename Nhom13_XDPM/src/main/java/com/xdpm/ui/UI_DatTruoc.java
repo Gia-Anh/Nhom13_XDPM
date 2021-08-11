@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.xdpm.dao.CustomerDAO;
 import com.xdpm.dao.DiskDAO;
@@ -144,7 +146,7 @@ public class UI_DatTruoc extends JPanel{
 			}
 		};
 		tblDisk.getTableHeader().setReorderingAllowed(false);
-		tblDisk.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tblDisk.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		tblDisk.setBounds(10, 45, 678, 247);
 		scrollPane.setViewportView(tblDisk);
 		
@@ -162,6 +164,10 @@ public class UI_DatTruoc extends JPanel{
 		tfDiskTitle.setBounds(240, 40, 180, 25);
 		pnlDiaTreHan.add(tfDiskTitle);
 		tfDiskTitle.setColumns(10);
+		
+		tableDesign(tblDisk);
+		tableRenderer();
+		setTBColumnWidth();
 		
 		btnFindCustomer.addActionListener(e ->{
 			try {
@@ -211,6 +217,12 @@ public class UI_DatTruoc extends JPanel{
 					JOptionPane.showMessageDialog(null, "Khách hàng đã đặt tựa đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}
 				
+			}
+		});
+		
+		btnHuy.addActionListener(e ->{
+			if (JOptionPane.showConfirmDialog(this, "Hủy đặt trước?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				clearAll();
 			}
 		});
 	}
@@ -276,5 +288,36 @@ public class UI_DatTruoc extends JPanel{
 			return false;
 		}
 		return true;
+	}
+	
+	private void tableDesign(JTable tb) {
+		tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+		tb.getTableHeader().setOpaque(false);
+		tb.getTableHeader().setBackground(new Color(32, 136, 203));
+		tb.getTableHeader().setForeground(Color.white);
+		tb.setRowHeight(25);
+		tb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+	}
+	
+	private void tableRenderer() {
+		DefaultTableCellRenderer rightCellRenderer = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
+		
+		rightCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+		centerCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		
+		tblDisk.getColumn("STT").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Mã tựa").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Loại đĩa").setCellRenderer(centerCellRenderer);
+	}
+	
+	private void setTBColumnWidth() {	
+		TableColumn column = null;
+		for (int i = 0; i < tblDisk.getColumnCount(); i++) {
+			column = tblDisk.getColumnModel().getColumn(i);
+			if(i==2) {
+				column.setPreferredWidth(250);
+			}
+		}
 	}
 }

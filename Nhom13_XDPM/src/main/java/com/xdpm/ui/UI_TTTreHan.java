@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.xdpm.dao.CustomerDAO;
 import com.xdpm.dao.DiskDAO;
@@ -180,6 +182,10 @@ public class UI_TTTreHan extends JPanel{
 		tblDisk.setBounds(10, 45, 678, 247);
 		scrollPane2.setViewportView(tblDisk);
 		
+		tableDesign(tblDisk);
+		tableRenderer();
+		setTBColumnWidth();
+		
 		btnFindCustomer.addActionListener(e ->{
 			try {
 				clearTable();
@@ -340,5 +346,38 @@ public class UI_TTTreHan extends JPanel{
 			return false;
 		}
 		return true;
+	}
+	
+	private void tableDesign(JTable tb) {
+		tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+		tb.getTableHeader().setOpaque(false);
+		tb.getTableHeader().setBackground(new Color(32, 136, 203));
+		tb.getTableHeader().setForeground(Color.white);
+		tb.setRowHeight(25);
+		tb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+	}
+	
+	private void tableRenderer() {
+		DefaultTableCellRenderer rightCellRenderer = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
+		
+		rightCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+		centerCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		
+		tblDisk.getColumn("STT").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Mã đĩa").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Hạn trả").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Ngày trả").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Phí trễ").setCellRenderer(rightCellRenderer);
+	}
+	
+	private void setTBColumnWidth() {	
+		TableColumn column = null;
+		for (int i = 0; i < tblDisk.getColumnCount(); i++) {
+			column = tblDisk.getColumnModel().getColumn(i);
+			if(i==2) {
+				column.setPreferredWidth(200);
+			}
+		}
 	}
 }

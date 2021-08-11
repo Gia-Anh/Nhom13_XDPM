@@ -46,4 +46,30 @@ public class ReservationDAO extends AbstractCRUD<ReservationRecord>{
 		query.setParameter("diskID", diskID);
 		return (ReservationRecord) query.getSingleResult();
 	}
+	
+	public List<ReservationRecord> getListByCusID(int cusID) {
+		List<ReservationRecord> list = new ArrayList<ReservationRecord>();
+		Query query = entityManager.createQuery("from ReservationRecord where customerID = :cusID order by id", ReservationRecord.class);
+		query.setParameter("cusID", cusID);
+		list = query.getResultList();
+		return list;
+	}
+	
+	public List<ReservationRecord> getAllRecord() {
+		List<ReservationRecord> list = new ArrayList<ReservationRecord>();
+		Query query = entityManager.createQuery("from ReservationRecord", ReservationRecord.class);
+		list = query.getResultList();
+		return list;
+	}
+	
+	public ReservationRecord getRecordByCusIDAndTitleID(int cusID, int titleID) {
+		ReservationRecord record = null;
+		Query query = entityManager.createQuery("from ReservationRecord where customerID = :cusID and titleID = :titleID", ReservationRecord.class);
+		query.setParameter("cusID", cusID);
+		query.setParameter("titleID", titleID);
+		if (query.getSingleResult() != null) {
+			record = (ReservationRecord) query.getSingleResult();
+		}
+		return record;
+	}
 }

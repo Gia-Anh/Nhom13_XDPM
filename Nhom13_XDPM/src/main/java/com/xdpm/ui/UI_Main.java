@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import java.awt.Color;
+import java.awt.Container;
+
 import javax.swing.JTabbedPane;
 
 public class UI_Main extends JFrame{
@@ -32,7 +34,7 @@ public class UI_Main extends JFrame{
 	private JMenuItem jmiThanhToan;
 	private JMenuItem jmiQLTuaDe;
 	private JMenuItem jmiQLKhachHang;
-	private JMenuItem jmiBCKhachHang;
+	private JMenu jmiBCKhachHang;
 	private JMenuItem jmiBCTuaDe;
 	private JMenuItem jmiCapNhatGiaThue;
 	private JMenuItem jmiCapNhatNgayThue;
@@ -43,6 +45,10 @@ public class UI_Main extends JFrame{
 	private JTabbedPane tabbedPane;
 	private UI_TTTreHan pnlTTTreHan;
 	private UI_DatTruoc pnlDatTruoc;
+	private UI_HuyDatTruoc pnlHuyDatTruoc;
+	private JMenuItem jmiBCTatCaKH;
+	private JMenuItem jmiBCKhChuaTraDia;
+	private JMenuItem jmiKHDangNo;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -179,6 +185,12 @@ public class UI_Main extends JFrame{
 			tabbedPane.removeAll();
 			tabbedPane.addTab("Đặt trước tựa đề", new ImageIcon("image/disk.png"), pnlDatTruoc, "Đặt trước tựa đề");
 		});
+		
+		pnlHuyDatTruoc = new UI_HuyDatTruoc();
+		jmiHuyDatTruoc.addActionListener(e ->{
+			tabbedPane.removeAll();
+			tabbedPane.addTab("Hủy đặt trước", new ImageIcon("image/disk.png"), pnlHuyDatTruoc, "Hủy đặt trước");
+		});
 	}
 	
 	public void changeUI(boolean isManager) {
@@ -198,10 +210,21 @@ public class UI_Main extends JFrame{
 			jmiQLDia.setFont(font2);
 			mnQuanLy.add(jmiQLDia);
 			
-			jmiBCKhachHang = new JMenuItem("Báo cáo khách hàng", new ImageIcon("image/disk.png"));
+			jmiBCKhachHang = new JMenu("Báo cáo khách hàng");
 			jmiBCKhachHang.setFont(font2);
 			mnBaoCao.add(jmiBCKhachHang);
 			
+			jmiBCTatCaKH = new JMenuItem("Tất cả khách hàng", new ImageIcon("image/disk.png"));
+			jmiBCTatCaKH.setFont(font2);
+			jmiBCKhachHang.add(jmiBCTatCaKH);
+			
+			jmiBCKhChuaTraDia = new JMenuItem("Khách hàng chưa trả đĩa", new ImageIcon("image/disk.png"));
+			jmiBCKhChuaTraDia.setFont(font2);
+			jmiBCKhachHang.add(jmiBCKhChuaTraDia);
+			
+			jmiKHDangNo = new JMenuItem("Khách hàng đang nợ", new ImageIcon("image/disk.png"));
+			jmiKHDangNo.setFont(font2);
+			jmiBCKhachHang.add(jmiKHDangNo);
 
 			jmiBCTuaDe = new JMenuItem("Báo cáo tựa đề", new ImageIcon("image/disk.png"));
 			jmiBCTuaDe.setFont(font2);
@@ -220,6 +243,11 @@ public class UI_Main extends JFrame{
 			mnKhac.setPreferredSize(new Dimension(165, 40));
 			mnBaoCao.setIcon(new ImageIcon("image/disk.png"));
 			mnKhac.setIcon(new ImageIcon("image/disk.png"));
+			jmiBCKhachHang.setIcon(new ImageIcon("image/disk.png"));
+			
+			jmiBCTatCaKH.setPreferredSize(new Dimension(210, 40));
+			jmiBCKhChuaTraDia.setPreferredSize(new Dimension(210, 40));
+			jmiKHDangNo.setPreferredSize(new Dimension(210, 40));
 			
 			tabbedPane.removeAll();
 			btnDangNhap.setText("Đăng xuất");
@@ -229,9 +257,6 @@ public class UI_Main extends JFrame{
 			mnQuanLy.remove(jmiQLDia);
 			tabbedPane.removeAll();
 			btnDangNhap.setText("Đăng nhập quản lý");
-			
-			
 		}
-		
 	}
 }

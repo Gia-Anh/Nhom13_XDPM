@@ -1,5 +1,6 @@
 package com.xdpm.ui;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -13,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import com.xdpm.dao.CustomerDAO;
 import com.xdpm.dao.DiskDAO;
@@ -55,7 +58,7 @@ public class UI_ThueDia extends JPanel{
 	private DiskDAO diskDAO = new DiskDAO();
 	private CustomerDAO customerDAO = new CustomerDAO();
 	private RentalDAO rentalDAO = new RentalDAO();
-	
+	private ReservationDAO reservationDAO = new ReservationDAO();
 	public UI_ThueDia() {
 		setLayout(null);
 		
@@ -71,16 +74,19 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblID);
 		
 		tfCusID = new JTextField();
-		tfCusID.setBounds(121, 25, 70, 25);
+		tfCusID.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfCusID.setBounds(121, 25, 62, 25);
 		pnlKhachHang.add(tfCusID);
 		tfCusID.setColumns(10);
 		
 		JButton btnFindCustomer = new JButton("Tìm");
-		btnFindCustomer.setBounds(200, 25, 62, 25);
+		btnFindCustomer.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnFindCustomer.setBounds(190, 25, 62, 25);
 		pnlKhachHang.add(btnFindCustomer);
 		
 		JButton btnAddCustomer = new JButton("Thêm");
-		btnAddCustomer.setBounds(272, 25, 62, 25);
+		btnAddCustomer.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnAddCustomer.setBounds(262, 25, 72, 25);
 		pnlKhachHang.add(btnAddCustomer);
 		
 		JLabel lblCusName = new JLabel("Tên khách hàng");
@@ -89,6 +95,7 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblCusName);
 		
 		tfCusName = new JTextField();
+		tfCusName.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfCusName.setBackground(Color.WHITE);
 		tfCusName.setEditable(false);
 		tfCusName.setBounds(121, 70, 213, 25);
@@ -101,6 +108,7 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblAddress);
 		
 		tfAddress = new JTextField();
+		tfAddress.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfAddress.setEditable(false);
 		tfAddress.setBackground(Color.WHITE);
 		tfAddress.setBounds(121, 115, 213, 25);
@@ -113,6 +121,7 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblPhoneNumber);
 		
 		tfPhoneNumber = new JTextField();
+		tfPhoneNumber.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfPhoneNumber.setEditable(false);
 		tfPhoneNumber.setBackground(Color.WHITE);
 		tfPhoneNumber.setText("");
@@ -126,6 +135,7 @@ public class UI_ThueDia extends JPanel{
 		pnlKhachHang.add(lblTienNoPhi);
 		
 		tfTienNoPhi = new JTextField();
+		tfTienNoPhi.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfTienNoPhi.setEditable(false);
 		tfTienNoPhi.setForeground(Color.RED);
 		tfTienNoPhi.setBackground(Color.WHITE);
@@ -219,6 +229,7 @@ public class UI_ThueDia extends JPanel{
 		pnlThanhToan.add(lblTongTien);
 		
 		tfTienThue = new JTextField();
+		tfTienThue.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfTienThue.setBackground(Color.WHITE);
 		tfTienThue.setForeground(Color.BLACK);
 		tfTienThue.setEditable(false);
@@ -228,6 +239,7 @@ public class UI_ThueDia extends JPanel{
 		tfTienThue.setText("0 đ");
 		
 		tfNoPhi = new JTextField();
+		tfNoPhi.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfNoPhi.setBackground(Color.WHITE);
 		tfNoPhi.setEditable(false);
 		tfNoPhi.setBounds(121, 70, 213, 25);
@@ -236,6 +248,8 @@ public class UI_ThueDia extends JPanel{
 		tfNoPhi.setText("0 đ");
 		
 		tfTongTien = new JTextField();
+		tfTongTien.setForeground(new Color(0, 128, 0));
+		tfTongTien.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfTongTien.setEditable(false);
 		tfTongTien.setBackground(Color.WHITE);
 		tfTongTien.setBounds(121, 115, 213, 25);
@@ -244,12 +258,20 @@ public class UI_ThueDia extends JPanel{
 		tfTongTien.setText("0 đ");
 		
 		JButton btnThanhToan = new JButton("Thanh toán");
+		btnThanhToan.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThanhToan.setBounds(60, 155, 100, 25);
 		pnlThanhToan.add(btnThanhToan);
 		
 		JButton btnHuy = new JButton("Hủy");
+		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnHuy.setBounds(200, 155, 100, 25);
 		pnlThanhToan.add(btnHuy);
+		//===============================================================
+		tableDesign(tblCart);
+		tableDesign(tblDisk);
+		tableRenderer();
+		setTBCartColumnWidth();
+		setTBDiskColumnWidth();
 		
 		//===============================================================
 		btnAddDisk.addActionListener(e ->{
@@ -295,6 +317,13 @@ public class UI_ThueDia extends JPanel{
 					
 					clearTableDisk();
 					loadTableLateFee(cusID);
+					
+					//thêm đĩa được giữ vào bảng
+					if (checkCustomerReservation(cusID).size() > 0) {
+						if (JOptionPane.showConfirmDialog(this, "Có đĩa được giữ cho khách hàng này, thêm vào?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+							addReservedDisk(cusID);
+						}
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}
@@ -487,5 +516,82 @@ public class UI_ThueDia extends JPanel{
 		}
 	}
 	
+	//lấy ds đĩa đã đặt trước của khách hàng
+	private List<Disk> checkCustomerReservation(int cusID) {
+		List<ReservationRecord> records = new ArrayList<ReservationRecord>();
+		List<Disk> disks = new ArrayList<Disk>();
+		records = reservationDAO.getListByCusID(cusID);
+		for (ReservationRecord reservationRecord : records) {
+			if (reservationRecord.getDisk() != null) {
+				disks.add(reservationRecord.getDisk());
+			}
+		}
+		return disks;
+	}
 	
+	private void addReservedDisk(int cusID) {
+		List<Disk> disks = checkCustomerReservation(cusID);
+		
+		for (Disk disk : disks) {
+			int i = modelCart.getRowCount();
+			String[] rowData = {i+1+"", disk.getId()+"", disk.getTitle().getName(),
+					disk.getTitle().getCategory().getName(), FormatString.formatDate(getDueDate(disk.getTitle().getCategory().getRentalPeriod()))
+					, disk.getTitle().getCategory().getRentalCharge()+""};
+			modelCart.addRow(rowData);
+			tblCart.setModel(modelCart);
+			
+			tfTienThue.setText(FormatString.formatTienVN(totalRentalCharge(tblCart))+" đ");
+			tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
+		}
+		JOptionPane.showMessageDialog(null, "Đã thêm "+ disks.size() +"đĩa đặt trước cho khách hàng này", "", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void tableDesign(JTable tb) {
+		tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+		tb.getTableHeader().setOpaque(false);
+		tb.getTableHeader().setBackground(new Color(32, 136, 203));
+		tb.getTableHeader().setForeground(Color.white);
+		tb.setRowHeight(25);
+		tb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+	}
+	
+	private void tableRenderer() {
+		DefaultTableCellRenderer rightCellRenderer = new DefaultTableCellRenderer();
+		DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
+		
+		rightCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+		centerCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+		
+		tblCart.getColumn("STT").setCellRenderer(centerCellRenderer);
+		tblCart.getColumn("Mã đĩa").setCellRenderer(centerCellRenderer);
+		tblCart.getColumn("Loại đĩa").setCellRenderer(centerCellRenderer);
+		tblCart.getColumn("Hạn trả").setCellRenderer(centerCellRenderer);
+		tblCart.getColumn("Tiền thuê").setCellRenderer(rightCellRenderer);
+		
+		tblDisk.getColumn("STT").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Mã đĩa").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Hạn trả").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Ngày trả").setCellRenderer(centerCellRenderer);
+		tblDisk.getColumn("Phí trễ").setCellRenderer(rightCellRenderer);
+	}
+	
+	private void setTBCartColumnWidth() {	
+		TableColumn column = null;
+		for (int i = 0; i < tblCart.getColumnCount(); i++) {
+			column = tblCart.getColumnModel().getColumn(i);
+			if(i==2) {
+				column.setPreferredWidth(200);
+			}
+		}
+	}
+	
+	private void setTBDiskColumnWidth() {	
+		TableColumn column = null;
+		for (int i = 0; i < tblDisk.getColumnCount(); i++) {
+			column = tblDisk.getColumnModel().getColumn(i);
+			if(i==2) {
+				column.setPreferredWidth(200);
+			}
+		}
+	}
 }

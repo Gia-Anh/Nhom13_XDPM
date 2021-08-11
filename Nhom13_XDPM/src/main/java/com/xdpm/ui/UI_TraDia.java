@@ -114,25 +114,29 @@ public class UI_TraDia extends JPanel{
 		btnAddDisk.addActionListener(e ->{
 			try {
 				int diskID = Integer.parseInt(tfDiskID.getText().toString());
-				RentalRecord record = rentalDAO.getByDiskID(diskID);
-				if (record != null) {
-					if (!checkExistOnTable(tblTraDia, diskID)) {
-						int i = tblTraDia.getRowCount();
-						String traTre = "";
-						
-						if (rentalDAO.checkLateReturn(record)) {
-							traTre = "x";
-						}
-						String[] rowData = {i+1+"", record.getDisk().getId()+"", record.getCustomer().getId()+"", record.getDisk().getTitle().getName(),
-								FormatString.formatDate(record.getRentDate()), FormatString.formatDate(record.getDueDate())
-								, traTre, record.getDisk().getTitle().getCategory().getLateFee()+""};
-						modelTraDia.addRow(rowData);
-						tblTraDia.setModel(modelTraDia);
-					}else {
-						JOptionPane.showMessageDialog(null, "Đĩa này đã thêm rồi!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					}
+				if (diskID < 0) {
+					JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					RentalRecord record = rentalDAO.getByDiskID(diskID);
+					if (record != null) {
+						if (!checkExistOnTable(tblTraDia, diskID)) {
+							int i = tblTraDia.getRowCount();
+							String traTre = "";
+							
+							if (rentalDAO.checkLateReturn(record)) {
+								traTre = "x";
+							}
+							String[] rowData = {i+1+"", record.getDisk().getId()+"", record.getCustomer().getId()+"", record.getDisk().getTitle().getName(),
+									FormatString.formatDate(record.getRentDate()), FormatString.formatDate(record.getDueDate())
+									, traTre, record.getDisk().getTitle().getCategory().getLateFee()+""};
+							modelTraDia.addRow(rowData);
+							tblTraDia.setModel(modelTraDia);
+						}else {
+							JOptionPane.showMessageDialog(null, "Đĩa này đã thêm rồi!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);

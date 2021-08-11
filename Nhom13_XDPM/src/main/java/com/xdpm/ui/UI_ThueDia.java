@@ -277,29 +277,33 @@ public class UI_ThueDia extends JPanel{
 		btnAddDisk.addActionListener(e ->{
 			try {
 				int diskID = Integer.parseInt(tfDiskID.getText());
-				Disk disk = diskDAO.getDiskByID(diskID);
-				if (disk != null) {
-					if (disk.getStatus().equals("rented")) {
-						JOptionPane.showMessageDialog(null, "Đĩa này đang được thuê!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					}else if (disk.getStatus().equals("onHold")) {
-						JOptionPane.showMessageDialog(null, "Đĩa này đang được giữ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-					}else {
-						if (!checkExistOnTable(tblCart, diskID)) {
-							int i = modelCart.getRowCount();
-							String[] rowData = {i+1+"", disk.getId()+"", disk.getTitle().getName(),
-									disk.getTitle().getCategory().getName(), FormatString.formatDate(getDueDate(disk.getTitle().getCategory().getRentalPeriod()))
-									, disk.getTitle().getCategory().getRentalCharge()+""};
-							modelCart.addRow(rowData);
-							tblCart.setModel(modelCart);
-							
-							tfTienThue.setText(FormatString.formatTienVN(totalRentalCharge(tblCart))+" đ");
-							tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
-						}else {
-							JOptionPane.showMessageDialog(null, "Đĩa này đã thêm rồi!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-						}
-					}
+				if (diskID < 0) {
+					JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					Disk disk = diskDAO.getDiskByID(diskID);
+					if (disk != null) {
+						if (disk.getStatus().equals("rented")) {
+							JOptionPane.showMessageDialog(null, "Đĩa này đang được thuê!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+						}else if (disk.getStatus().equals("onHold")) {
+							JOptionPane.showMessageDialog(null, "Đĩa này đang được giữ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+						}else {
+							if (!checkExistOnTable(tblCart, diskID)) {
+								int i = modelCart.getRowCount();
+								String[] rowData = {i+1+"", disk.getId()+"", disk.getTitle().getName(),
+										disk.getTitle().getCategory().getName(), FormatString.formatDate(getDueDate(disk.getTitle().getCategory().getRentalPeriod()))
+										, disk.getTitle().getCategory().getRentalCharge()+""};
+								modelCart.addRow(rowData);
+								tblCart.setModel(modelCart);
+								
+								tfTienThue.setText(FormatString.formatTienVN(totalRentalCharge(tblCart))+" đ");
+								tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
+							}else {
+								JOptionPane.showMessageDialog(null, "Đĩa này đã thêm rồi!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -309,23 +313,27 @@ public class UI_ThueDia extends JPanel{
 		btnFindCustomer.addActionListener(e ->{
 			try {
 				int cusID = Integer.parseInt(tfCusID.getText());
-				Customer customer = customerDAO.getCustomerByID(cusID);
-				if (customer != null) {
-					tfCusName.setText(customer.getName());
-					tfAddress.setText(customer.getAddress());
-					tfPhoneNumber.setText(customer.getPhoneNumber());
-					
-					clearTableDisk();
-					loadTableLateFee(cusID);
-					
-					//thêm đĩa được giữ vào bảng
-					if (checkCustomerReservation(cusID).size() > 0) {
-						if (JOptionPane.showConfirmDialog(this, "Có đĩa được giữ cho khách hàng này, thêm vào?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-							addReservedDisk(cusID);
-						}
-					}
+				if (cusID<0) {
+					JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					Customer customer = customerDAO.getCustomerByID(cusID);
+					if (customer != null) {
+						tfCusName.setText(customer.getName());
+						tfAddress.setText(customer.getAddress());
+						tfPhoneNumber.setText(customer.getPhoneNumber());
+						
+						clearTableDisk();
+						loadTableLateFee(cusID);
+						
+						//thêm đĩa được giữ vào bảng
+						if (checkCustomerReservation(cusID).size() > 0) {
+							if (JOptionPane.showConfirmDialog(this, "Có đĩa được giữ cho khách hàng này, thêm vào?", "Chú ý", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								addReservedDisk(cusID);
+							}
+						}
+					}else {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);

@@ -46,7 +46,7 @@ public class UI_Main extends JFrame{
 	private JMenuItem jmiQLTuaDe;
 	private JMenuItem jmiQLKhachHang;
 	private JMenu jmiBCKhachHang;
-	private JMenuItem jmiBCTuaDe;
+	private JMenu jmiBCTuaDe;
 	private JMenuItem jmiCapNhatGiaThue;
 	private JMenuItem jmiCapNhatNgayThue;
 	private JMenuItem jmiQLDia;
@@ -64,6 +64,11 @@ public class UI_Main extends JFrame{
 	private UI_QL_Dia pnlQLDia;
 	private UI_QL_TuaDe pnlQLTua;
 	private UI_QL_KhachHang pnlQLKhachHang;
+	private JMenuItem jmiTTCBDia;
+	private JMenuItem jmiDiaDangThue;
+	private JMenuItem jmiDiaDangGiu;
+	private JMenuItem jmiDiaTrenKe;
+	private JMenuItem jmiTongSoDia;
 
 	public UI_Main() {
 		Font font = new Font("Tahoma", Font.PLAIN,16);
@@ -253,9 +258,25 @@ public class UI_Main extends JFrame{
 			jmiKHDangNo.setFont(font2);
 			jmiBCKhachHang.add(jmiKHDangNo);
 
-			jmiBCTuaDe = new JMenuItem("Báo cáo tựa đề", new ImageIcon("image/report.png"));
+			jmiBCTuaDe = new JMenu("Báo cáo tựa đề");
 			jmiBCTuaDe.setFont(font2);
 			mnBaoCao.add(jmiBCTuaDe);
+			
+			jmiTTCBDia = new JMenuItem("Thông tin cơ bản", new ImageIcon("image/disk.png"));
+			jmiTTCBDia.setFont(font2);
+			jmiBCTuaDe.add(jmiTTCBDia);
+			
+			jmiDiaDangThue = new JMenuItem("Số đĩa đang thuê", new ImageIcon("image/disk.png"));
+			jmiDiaDangThue.setFont(font2);
+			jmiBCTuaDe.add(jmiDiaDangThue);
+			
+			jmiDiaDangGiu = new JMenuItem("Số đĩa đang giữ", new ImageIcon("image/disk.png"));
+			jmiDiaDangGiu.setFont(font2);
+			jmiBCTuaDe.add(jmiDiaDangGiu);
+			
+			jmiDiaTrenKe = new JMenuItem("Số đĩa trên kệ", new ImageIcon("image/disk.png"));
+			jmiDiaTrenKe.setFont(font2);
+			jmiBCTuaDe.add(jmiDiaTrenKe);
 			
 			jmiCapNhatGiaThue = new JMenuItem("Cập nhật giá thuê", new ImageIcon("image/update.png"));
 			jmiCapNhatGiaThue.setFont(font2);
@@ -275,6 +296,7 @@ public class UI_Main extends JFrame{
 			mnBaoCao.setIcon(new ImageIcon("image/report.png"));
 			mnKhac.setIcon(new ImageIcon("image/update.png"));
 			jmiBCKhachHang.setIcon(new ImageIcon("image/report.png"));
+			jmiBCTuaDe.setIcon(new ImageIcon("image/report.png"));
 			
 			jmiBCTatCaKH.setPreferredSize(new Dimension(210, 40));
 			jmiBCKhChuaTraDia.setPreferredSize(new Dimension(210, 40));
@@ -307,7 +329,9 @@ public class UI_Main extends JFrame{
 				tabbedPane.removeAll();
 				tabbedPane.addTab("Quản lý tựa đề", new ImageIcon("image/disk.png"), pnlQLTua, "Quản lý tựa đề");
 			});
-			jmiBCTuaDe.addActionListener(e -> {
+			
+			//=============Bao cao
+			jmiTTCBDia.addActionListener(e -> {
 				Map<String, Object> parameters = new HashMap<String, Object>();
 				xuatBaoCao("BaoCao_ThongTinTuaDe.jrxml", parameters);
 			});

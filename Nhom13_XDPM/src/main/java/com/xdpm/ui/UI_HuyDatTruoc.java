@@ -133,7 +133,12 @@ public class UI_HuyDatTruoc extends JPanel{
 			records = reservationDAO.getAllRecord();
 		}else {
 			Integer customerID = Integer.parseInt(cusID);
-			records = reservationDAO.getListByCusID(customerID);
+			if (customerID < 0) {
+				loadTable("");
+				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			}else {
+				records = reservationDAO.getListByCusID(customerID);
+			}
 		}
 		
 		for (ReservationRecord reservationRecord : records) {

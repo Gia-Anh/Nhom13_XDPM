@@ -72,27 +72,31 @@ public class UI_KiemTraDia extends JDialog{
 		btnFindDisk.addActionListener(e ->{
 			try {
 				int diskID = Integer.parseInt(tfDiskID.getText());
-				Disk disk = diskDAO.getDiskByID(diskID);
-				if (disk == null) {
-					JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				if (diskID < 0) {
+					JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}else {
-					if (disk.getStatus().equals("onShelf")) {
-						lblID.setText("ID: "+disk.getId());
-						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
-						lblStatus.setText("Trạng thái: trên kệ");
-						lblCustomer.setText("");
-					}else if (disk.getStatus().equals("rented")) {
-						RentalRecord rentalRecord = rentalDAO.getByDiskID(diskID);
-						lblID.setText("ID: "+disk.getId());
-						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
-						lblStatus.setText("Trạng thái: đang được thuê");
-						lblCustomer.setText("Người thuê: "+rentalRecord.getCustomer().getName());
+					Disk disk = diskDAO.getDiskByID(diskID);
+					if (disk == null) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy đĩa!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 					}else {
-						ReservationRecord reservationRecord = reservationDAO.getByDiskID(diskID);
-						lblID.setText("ID: "+disk.getId());
-						lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
-						lblStatus.setText("Trạng thái: đang được giữ");
-						lblCustomer.setText("Được giữ cho: "+reservationRecord.getCustomer().getName());
+						if (disk.getStatus().equals("onShelf")) {
+							lblID.setText("ID: "+disk.getId());
+							lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
+							lblStatus.setText("Trạng thái: trên kệ");
+							lblCustomer.setText("");
+						}else if (disk.getStatus().equals("rented")) {
+							RentalRecord rentalRecord = rentalDAO.getByDiskID(diskID);
+							lblID.setText("ID: "+disk.getId());
+							lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
+							lblStatus.setText("Trạng thái: đang được thuê");
+							lblCustomer.setText("Người thuê: "+rentalRecord.getCustomer().getName());
+						}else {
+							ReservationRecord reservationRecord = reservationDAO.getByDiskID(diskID);
+							lblID.setText("ID: "+disk.getId());
+							lblTitle.setText("Tựa đĩa: "+disk.getTitle().getName());
+							lblStatus.setText("Trạng thái: đang được giữ");
+							lblCustomer.setText("Được giữ cho: "+reservationRecord.getCustomer().getName());
+						}
 					}
 				}
 			} catch (Exception e2) {

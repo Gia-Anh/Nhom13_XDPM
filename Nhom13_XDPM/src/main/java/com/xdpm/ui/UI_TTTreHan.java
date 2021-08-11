@@ -190,16 +190,20 @@ public class UI_TTTreHan extends JPanel{
 			try {
 				clearTable();
 				int cusID = Integer.parseInt(tfCusID.getText());
-				Customer customer = customerDAO.getCustomerByID(cusID);
-				if (customer != null) {
-					tfCusName.setText(customer.getName());
-					tfAddress.setText(customer.getAddress());
-					tfPhoneNumber.setText(customer.getPhoneNumber());
-					
-					loadTableLateFee(cusID);
-					btnThanhToanAll.setEnabled(true);
+				if (cusID < 0) {
+					JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				}else {
-					JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					Customer customer = customerDAO.getCustomerByID(cusID);
+					if (customer != null) {
+						tfCusName.setText(customer.getName());
+						tfAddress.setText(customer.getAddress());
+						tfPhoneNumber.setText(customer.getPhoneNumber());
+						
+						loadTableLateFee(cusID);
+						btnThanhToanAll.setEnabled(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng này!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			} catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);

@@ -24,5 +24,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/XayDungPhanMem/Code/Nhom13_XDPM/Nhom13_XDPM/library/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="D:/XayDungPhanMem/Code/Nhom13_XDPM/Nhom13_XDPM/library/jar_files.zip"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

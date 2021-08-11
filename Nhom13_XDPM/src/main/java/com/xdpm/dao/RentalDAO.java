@@ -15,9 +15,15 @@ public class RentalDAO extends AbstractCRUD<RentalRecord>{
 
 	//lấy record của đĩa chưa trả
 	public RentalRecord getByDiskID(int diskID) {
-		Query query = entityManager.createQuery("from RentalRecord where diskID = :id and returnDate is null", RentalRecord.class);
-		query.setParameter("id", diskID);
-		return (RentalRecord) query.getSingleResult();
+		RentalRecord record = null;
+		try {
+			Query query = entityManager.createQuery("from RentalRecord where diskID = :id and returnDate is null", RentalRecord.class);
+			query.setParameter("id", diskID);
+			record = (RentalRecord) query.getSingleResult();
+		} catch (Exception e) {
+			record = null;
+		}
+		return record;
 	}
 	
 	//lấy record của đĩa

@@ -543,7 +543,7 @@ public class UI_ThueDia extends JPanel{
 			tfTienThue.setText(FormatString.formatTienVN(totalRentalCharge(tblCart))+" đ");
 			tfTongTien.setText(FormatString.formatTienVN(totalCharge())+ " đ");
 		}
-		JOptionPane.showMessageDialog(null, "Đã thêm "+ disks.size() +"đĩa đặt trước cho khách hàng này", "", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Đã thêm "+ disks.size() +" đĩa đặt trước cho khách hàng này", "", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void tableDesign(JTable tb) {

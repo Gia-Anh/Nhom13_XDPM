@@ -253,7 +253,7 @@ public class UI_Main extends JFrame {
 			jmiBCTatCaKH.setFont(font2);
 			jmiBCKhachHang.add(jmiBCTatCaKH);
 
-			jmiBCKhChuaTraDia = new JMenuItem("Khách hàng đang thuê đĩa", new ImageIcon("image/disk.png"));
+			jmiBCKhChuaTraDia = new JMenuItem("Khách hàng quá hạn thuê đĩa", new ImageIcon("image/disk.png"));
 			jmiBCKhChuaTraDia.setFont(font2);
 			jmiBCKhachHang.add(jmiBCKhChuaTraDia);
 
@@ -261,7 +261,7 @@ public class UI_Main extends JFrame {
 			jmiKHDangNo.setFont(font2);
 			jmiBCKhachHang.add(jmiKHDangNo);
 
-			jmiBCKhSoHuuDia = new JMenuItem("Khách hàng đang sỡ hữu số lượng đĩa", new ImageIcon("image/disk.png"));
+			jmiBCKhSoHuuDia = new JMenuItem("Số đĩa đang sở hữu của khách", new ImageIcon("image/disk.png"));
 			jmiBCKhSoHuuDia.setFont(font2);
 			jmiBCKhachHang.add(jmiBCKhSoHuuDia);
 

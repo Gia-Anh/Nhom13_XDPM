@@ -74,5 +74,4 @@ public class ReservationDAO extends AbstractCRUD<ReservationRecord>{
 		}
 		return record;
 	}
-	
 }

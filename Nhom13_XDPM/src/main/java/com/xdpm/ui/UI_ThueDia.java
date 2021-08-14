@@ -365,7 +365,14 @@ public class UI_ThueDia extends JPanel{
 						rentalDAO.add(record);
 						disk.setStatus("rented");
 						diskDAO.update(disk);
+						
+						//xóa bản ghi đặt trước khi thuê đĩa thành công
+						ReservationRecord reservationRecord = reservationDAO.getRecordByCusIDAndDiskID(cusID, diskID);
+						if (reservationRecord != null) {
+							reservationDAO.delete(reservationRecord);
+						}
 					}
+					
 					if (!flag) {
 						updateRecord(cusID);
 					}

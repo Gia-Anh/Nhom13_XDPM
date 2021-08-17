@@ -206,7 +206,11 @@ public class UI_TTTreHan extends JPanel{
 					}
 				}
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				if (tfCusID.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "Chưa nhập mã khách hàng!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

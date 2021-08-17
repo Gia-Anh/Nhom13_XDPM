@@ -139,8 +139,11 @@ public class UI_TraDia extends JPanel{
 					}
 				}
 			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-				e1.printStackTrace();
+				if (tfDiskID.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "Chưa nhập mã đĩa!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		

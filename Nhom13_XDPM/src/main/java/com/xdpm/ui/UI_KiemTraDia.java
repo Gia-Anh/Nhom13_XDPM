@@ -100,7 +100,11 @@ public class UI_KiemTraDia extends JDialog{
 					}
 				}
 			} catch (Exception e2) {
-				JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				if (tfDiskID.getText().trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "Chưa nhập mã đĩa!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Mã đĩa không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}

@@ -23,25 +23,25 @@ import javax.swing.table.TableColumn;
 
 import com.xdpm.dao.CustomerDAO;
 import com.xdpm.entity.Customer;
+import javax.swing.border.TitledBorder;
 
 public class UI_QL_KhachHang extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4440702554365484612L;
-	private JTextField txtId;
 	private JTable table;
-	private JTextField txtHoTen;
-	private JTextField txtDiaChi;
-	private JTextField txtSdt;
 	private List<Customer> list = new ArrayList<Customer>();
 	private JButton btnSua;
 	private JButton btnXoa;
-	private JButton btnLuu;
 	private JButton btnTimKiem;
 	private CustomerDAO customerDAO = new CustomerDAO();
 	private DefaultTableModel dfTable;
 	private JButton btnThem;
+	private JTextField txtId;
+	private JTextField txtHoTen;
+	private JTextField txtDiaChi;
+	private JTextField txtSdt;
 
 	/**
 	 * Create the panel.
@@ -58,7 +58,7 @@ public class UI_QL_KhachHang extends JPanel {
 		/**
 		 * Set table
 		 */
-		table = new JTable(){
+		table = new JTable() {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
@@ -76,75 +76,76 @@ public class UI_QL_KhachHang extends JPanel {
 		table.getColumnModel().getColumn(2).setPreferredWidth(120);
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
 		table.getColumnModel().getColumn(4).setPreferredWidth(90);
-
-		JLabel lblNewLabel = new JLabel("Mã khách hàng:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel.setBounds(846, 84, 102, 25);
-		panel.add(lblNewLabel);
-
-		txtId = new JTextField();
-		txtId.setEditable(false);
-		txtId.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtId.setBounds(846, 115, 210, 22);
-		panel.add(txtId);
-		txtId.setColumns(10);
 		btnThem = new JButton("Thêm");
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnThem.setBounds(846, 443, 92, 31);
+		btnThem.setBounds(846, 402, 210, 31);
 		panel.add(btnThem);
-
-		txtHoTen = new JTextField();
-		txtHoTen.setEditable(false);
-		txtHoTen.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtHoTen.setColumns(10);
-		txtHoTen.setBounds(846, 178, 210, 22);
-		panel.add(txtHoTen);
-
-		JLabel lblHTn = new JLabel("Họ tên:");
-		lblHTn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblHTn.setBounds(846, 147, 102, 25);
-		panel.add(lblHTn);
-
-		txtDiaChi = new JTextField();
-		txtDiaChi.setEditable(false);
-		txtDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtDiaChi.setColumns(10);
-		txtDiaChi.setBounds(846, 241, 210, 22);
-		panel.add(txtDiaChi);
-		JLabel lblDiaChi = new JLabel("Địa chỉ:");
-		lblDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblDiaChi.setBounds(846, 210, 102, 25);
-		panel.add(lblDiaChi);
-		txtSdt = new JTextField();
-		txtSdt.setEditable(false);
-		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtSdt.setColumns(10);
-		txtSdt.setBounds(846, 304, 210, 22);
-		panel.add(txtSdt);
-		JLabel lblSinThoi = new JLabel("Số điện thoại:");
-		lblSinThoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblSinThoi.setBounds(846, 273, 102, 25);
-		panel.add(lblSinThoi);
 
 		btnXoa = new JButton("Xóa");
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnXoa.setBounds(964, 381, 92, 31);
+		btnXoa.setBounds(964, 361, 92, 31);
 		panel.add(btnXoa);
 		btnSua = new JButton("Sửa");
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnSua.setBounds(846, 381, 92, 31);
+		btnSua.setBounds(846, 361, 92, 31);
 		panel.add(btnSua);
-		btnLuu = new JButton("Lưu");
-		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLuu.setBounds(964, 443, 92, 31);
-		btnLuu.setEnabled(false);
-		panel.add(btnLuu);
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimKiem.setBounds(20, 21, 92, 31);
 		panel.add(btnTimKiem);
-		
+
 		tableDesign(table);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new TitledBorder(null, "Th\u00F4ng tin kh\u00E1ch h\u00E0ng", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+		panel_1.setBounds(846, 62, 210, 289);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+
+		JLabel lblNewLabel = new JLabel("Mã khách hàng:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblNewLabel.setBounds(10, 37, 190, 25);
+		panel_1.add(lblNewLabel);
+
+		txtId = new JTextField();
+		txtId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtId.setColumns(10);
+		txtId.setBounds(10, 68, 94, 22);
+		panel_1.add(txtId);
+
+		JLabel lblHTn = new JLabel("Họ tên:");
+		lblHTn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblHTn.setBounds(10, 100, 190, 25);
+		panel_1.add(lblHTn);
+
+		txtHoTen = new JTextField();
+		txtHoTen.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtHoTen.setColumns(10);
+		txtHoTen.setBounds(10, 131, 190, 22);
+		panel_1.add(txtHoTen);
+
+		JLabel lblDiaChi = new JLabel("Địa chỉ:");
+		lblDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblDiaChi.setBounds(10, 163, 190, 25);
+		panel_1.add(lblDiaChi);
+
+		txtDiaChi = new JTextField();
+		txtDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtDiaChi.setColumns(10);
+		txtDiaChi.setBounds(10, 194, 190, 22);
+		panel_1.add(txtDiaChi);
+
+		JLabel lblSinThoi = new JLabel("Số điện thoại:");
+		lblSinThoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblSinThoi.setBounds(10, 226, 190, 25);
+		panel_1.add(lblSinThoi);
+
+		txtSdt = new JTextField();
+		txtSdt.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtSdt.setColumns(10);
+		txtSdt.setBounds(10, 257, 190, 22);
+		panel_1.add(txtSdt);
 		tableRenderer();
 		setTBColumnWidth();
 
@@ -166,21 +167,21 @@ public class UI_QL_KhachHang extends JPanel {
 				txtDiaChi.setText((String) table.getValueAt(table.getSelectedRow(), 3));
 			}
 		});
+//		btnThem.addActionListener(e -> {
+//			clear();
+//			openText(true);
+//			openButton(false);
+//		});
 		btnThem.addActionListener(e -> {
-			clear();
-			openText(true);
-			openButton(false);
-		});
-		btnLuu.addActionListener(e -> {
-			if(txtHoTen.getText().equals("")||txtSdt.getText().equals("")||txtDiaChi.getText().equals("")) {
+			if (txtHoTen.getText().equals("") || txtSdt.getText().equals("") || txtDiaChi.getText().equals("")) {
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			String sdt=txtSdt.getText();
+			String sdt = txtSdt.getText();
 			if (!(sdt.length() > 0 && sdt.matches("0[0-9]{9}"))) {
-				JOptionPane.showMessageDialog(this, "Số điện thoại không đúng (gồm 10 con số và bắt đầu bằng 0)", "Thông báo",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Số điện thoại không đúng (gồm 10 con số và bắt đầu bằng 0)",
+						"Thông báo", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			Customer customer = new Customer(txtHoTen.getText(), txtDiaChi.getText(), txtSdt.getText());
@@ -199,6 +200,17 @@ public class UI_QL_KhachHang extends JPanel {
 			loadListCustomer(list);
 		});
 		btnSua.addActionListener(e -> {
+			if (txtHoTen.getText().equals("") || txtSdt.getText().equals("") || txtDiaChi.getText().equals("")) {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			String sdt = txtSdt.getText();
+			if (!(sdt.length() > 0 && sdt.matches("0[0-9]{9}"))) {
+				JOptionPane.showMessageDialog(this, "Số điện thoại không đúng (gồm 10 con số và bắt đầu bằng 0)",
+						"Thông báo", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			if (txtId.getText().equalsIgnoreCase("")) {
 				JOptionPane.showMessageDialog(this, "Vui lòng chọn thông tin khách hàng", "Thông báo",
 						JOptionPane.ERROR_MESSAGE);
@@ -210,6 +222,7 @@ public class UI_QL_KhachHang extends JPanel {
 				if (result == JOptionPane.YES_OPTION) {
 					Customer customer = new Customer(Integer.parseInt(txtId.getText()), txtHoTen.getText(),
 							txtDiaChi.getText(), txtSdt.getText());
+					customer.setEnabled(true);
 					customerDAO.update(customer);
 					list = customerDAO.getAllCustomer();
 					loadListCustomer(list);
@@ -224,18 +237,34 @@ public class UI_QL_KhachHang extends JPanel {
 			if (txtId.getText().equalsIgnoreCase("")) {
 				JOptionPane.showMessageDialog(this, "Mã khách hàng đang rỗng!", "Thông báo", JOptionPane.ERROR_MESSAGE);
 				return;
-			} else {
-				String id = (String) table.getValueAt(table.getSelectedRow(), 1);
-				int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa khách hàng mã: '" + id + "' ",
-						"Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (result == JOptionPane.YES_OPTION) {
-					customerDAO.deleteCustomer(Integer.parseInt(id));
-					list = customerDAO.getAllCustomer();
-					loadListCustomer(list);
-					clear();
-				} else
-					return;
 			}
+
+			if (!(txtId.getText().length() > 0 && txtId.getText().matches("[0-9]*"))) {
+				JOptionPane.showMessageDialog(this, "Không nhập chữ", "Thông báo", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
+			if (customerDAO.checkCustomerRented(Integer.parseInt(txtId.getText())).size() > 0) {
+				JOptionPane.showMessageDialog(this, "Khách hàng đang thuê không thể xóa", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			if (customerDAO.checkCustomerResertvation(Integer.parseInt(txtId.getText())).size() > 0) {
+				JOptionPane.showMessageDialog(this, "Khách hàng đang thuê không thể xóa", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			String id = (String) table.getValueAt(table.getSelectedRow(), 1);
+			int result = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa khách hàng mã: '" + id + "' ",
+					"Xác nhận", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (result == JOptionPane.YES_OPTION) {
+				customerDAO.deleteCustomer(Integer.parseInt(id));
+				list = customerDAO.getAllCustomer();
+				loadListCustomer(list);
+				clear();
+			} else
+				return;
+
 		});
 		btnTimKiem.addActionListener(e -> {
 			JFrame fram = new UI_TimKiemKhachHang();
@@ -280,18 +309,18 @@ public class UI_QL_KhachHang extends JPanel {
 	public void openButton(boolean hope) {
 		if (hope) {
 			btnThem.setEnabled(true);
-			btnLuu.setEnabled(false);
+//			btnLuu.setEnabled(false);
 			btnSua.setEnabled(true);
 			btnXoa.setEnabled(true);
 		} else {
 			btnThem.setEnabled(false);
-			btnLuu.setEnabled(true);
+//			btnLuu.setEnabled(true);
 			btnSua.setEnabled(false);
 			btnXoa.setEnabled(false);
 		}
 
 	}
-	
+
 	private void tableDesign(JTable tb) {
 		tb.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 		tb.getTableHeader().setOpaque(false);
@@ -300,29 +329,28 @@ public class UI_QL_KhachHang extends JPanel {
 		tb.setRowHeight(25);
 		tb.setFont(new Font("Segoe UI", Font.PLAIN, 13));
 	}
-	
+
 	private void tableRenderer() {
 		DefaultTableCellRenderer rightCellRenderer = new DefaultTableCellRenderer();
 		DefaultTableCellRenderer centerCellRenderer = new DefaultTableCellRenderer();
-		
+
 		rightCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
 		centerCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-		
+
 		table.getColumn("STT").setCellRenderer(centerCellRenderer);
 		table.getColumn("Mã KH").setCellRenderer(centerCellRenderer);
 	}
-	
-	private void setTBColumnWidth() {	
+
+	private void setTBColumnWidth() {
 		TableColumn column = null;
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			column = table.getColumnModel().getColumn(i);
-			if(i==2) {
+			if (i == 2) {
 				column.setPreferredWidth(150);
 			}
-			if (i==3) {
+			if (i == 3) {
 				column.setPreferredWidth(200);
 			}
 		}
 	}
-	
 }

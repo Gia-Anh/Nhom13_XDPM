@@ -155,6 +155,7 @@ public class UI_TraDia extends JPanel{
 					tfLateFee.setText(FormatString.formatTienVN(totalLateFee(tblTraDia))+" đ");
 				}else {
 					tfLateFee.setText("");
+					isChecked = false;
 				}
 			}
 		});
@@ -203,6 +204,7 @@ public class UI_TraDia extends JPanel{
 				if (flag) {
 					UI_TBDatTruoc ui_TBDatTruoc = new UI_TBDatTruoc(map);
 					ui_TBDatTruoc.setVisible(true);
+					flag = false;
 				}
 				
 			}

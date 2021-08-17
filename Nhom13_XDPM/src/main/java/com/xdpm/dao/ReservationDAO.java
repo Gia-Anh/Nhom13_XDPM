@@ -32,12 +32,15 @@ public class ReservationDAO extends AbstractCRUD<ReservationRecord>{
 	
 	public ReservationRecord getRecordByCusIDAndDiskID(int cusID, int diskID) {
 		ReservationRecord record = null;
-		Query query = entityManager.createQuery("from ReservationRecord where customerID = :cusID and diskID = :diskID", ReservationRecord.class);
-		query.setParameter("cusID", cusID);
-		query.setParameter("diskID", diskID);
-		if (query.getSingleResult() != null) {
+		try {
+			Query query = entityManager.createQuery("from ReservationRecord where customerID = :cusID and diskID = :diskID", ReservationRecord.class);
+			query.setParameter("cusID", cusID);
+			query.setParameter("diskID", diskID);
 			record = (ReservationRecord) query.getSingleResult();
+		} catch (Exception e) {
+			record = null;
 		}
+		
 		return record;
 	}
 	

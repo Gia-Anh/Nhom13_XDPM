@@ -391,6 +391,7 @@ public class UI_ThueDia extends JPanel{
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "Mã khách hàng không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				e1.printStackTrace();
 			}
 		});
 		

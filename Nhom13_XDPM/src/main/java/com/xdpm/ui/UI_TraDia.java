@@ -122,13 +122,15 @@ public class UI_TraDia extends JPanel{
 						if (!checkExistOnTable(tblTraDia, diskID)) {
 							int i = tblTraDia.getRowCount();
 							String traTre = "";
+							String phiTre = "";
 							
 							if (rentalDAO.checkLateReturn(record)) {
 								traTre = "x";
+								phiTre = record.getDisk().getTitle().getCategory().getLateFee()+"";
 							}
 							String[] rowData = {i+1+"", record.getDisk().getId()+"", record.getCustomer().getId()+"", record.getDisk().getTitle().getName(),
 									FormatString.formatDate(record.getRentDate()), FormatString.formatDate(record.getDueDate())
-									, traTre, record.getDisk().getTitle().getCategory().getLateFee()+""};
+									, traTre, phiTre};
 							modelTraDia.addRow(rowData);
 							tblTraDia.setModel(modelTraDia);
 						}else {
